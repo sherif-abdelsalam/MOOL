@@ -3,9 +3,8 @@ import 'package:mool/screens/main_screen.dart';
 
 final theme = ThemeData(
   colorScheme: ColorScheme.fromSeed(
-    seedColor: const Color.fromARGB(255, 131, 57, 0),
+    seedColor: Colors.black,
   ),
-  // textTheme: GoogleFonts.latoTextTheme(),
 );
 
 void main() {
@@ -18,6 +17,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: theme,
+      debugShowCheckedModeBanner: false,
       home: LogoScreen(),
     );
   }

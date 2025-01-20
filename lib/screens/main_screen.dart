@@ -8,19 +8,13 @@ class LogoScreen extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          Positioned.fill(
-            child: Container(
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage("images/mool_back.png"),
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
+          Image.asset(
+            "images/mool_back.png",
+            fit: BoxFit.cover,
+            width: double.infinity,
+            height: double.infinity,
           ),
-          const Center(
-            child: AnimatedLogo(),
-          ),
+          AnimatedLogo(),
         ],
       ),
     );
