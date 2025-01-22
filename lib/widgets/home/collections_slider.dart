@@ -28,16 +28,54 @@ class _CollectionsSliderState extends State<CollectionsSlider> {
                 ),
                 clipBehavior: Clip.hardEdge,
                 elevation: 4,
-                child: Image.asset(
-                  collection.imageUrl,
-                  fit: BoxFit.cover,
-                  width: double.infinity,
+                child: Stack(
+                  children: [
+                    Image.asset(
+                      collection.imageUrl,
+                      fit: BoxFit.cover,
+                      width: double.infinity,
+                    ),
+                    Positioned(
+                      left: 20,
+                      top: 20,
+                      child: Text(
+                        collection.title,
+                        textAlign: TextAlign.start,
+                        softWrap: true,
+                        overflow: TextOverflow.ellipsis, // tex...
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          height: 1.2,
+                          color: collection.textColor,
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      left: 20,
+                      bottom: 12,
+                      child: ElevatedButton(
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                            padding: EdgeInsets.symmetric(horizontal: 12),
+                            backgroundColor: collection.buttonColor,
+                            foregroundColor: Colors.white,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8))),
+                        child: Text(
+                          collection.buttonText,
+                          style: TextStyle(
+                              fontSize: 14, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             );
           },
           options: CarouselOptions(
-            height: 240,
+            height: 238,
             enlargeCenterPage: true,
             enableInfiniteScroll: true,
             autoPlay: true,
