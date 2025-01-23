@@ -8,11 +8,13 @@ class SigningButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size; // Screen size
+
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.symmetric(
-        vertical: 44,
-        horizontal: 24,
+      padding: EdgeInsets.symmetric(
+        vertical: size.height * .03,
+        horizontal: size.width * .06,
       ),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -25,24 +27,26 @@ class SigningButtons extends StatelessWidget {
         children: [
           Row(
             children: [
-              const Text(
-                "Get your dream items easily with Mool\nand get other interesting offers",
+              Text(
+                "Get your dream items easily with Mool \nand get other interesting offers",
                 textAlign: TextAlign.start,
                 style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w500,
+                  fontSize: Theme.of(context).textTheme.bodyMedium!.fontSize,
+                  fontWeight: FontWeight.w400,
                   color: Colors.black,
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 32),
+          SizedBox(height: size.height * .03),
           Row(
             children: [
               OutlinedButton(
                 onPressed: onRegister,
                 style: OutlinedButton.styleFrom(
-                  padding: EdgeInsets.symmetric(horizontal: 52, vertical: 12),
+                  padding: EdgeInsets.symmetric(
+                      horizontal: size.width * .118,
+                      vertical: size.height * .015),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(16),
                   ),
@@ -52,7 +56,7 @@ class SigningButtons extends StatelessWidget {
                 ),
                 child: const Text(
                   "Sign Up",
-                  style: TextStyle(color: Colors.black, fontSize: 20),
+                  style: TextStyle(color: Colors.black, fontSize: 18),
                 ),
               ),
               Spacer(),
@@ -60,56 +64,56 @@ class SigningButtons extends StatelessWidget {
                 onPressed: onLogin,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.black,
-                  padding: EdgeInsets.symmetric(horizontal: 52, vertical: 12),
+                  padding: EdgeInsets.symmetric(
+                      horizontal: size.width * .118,
+                      vertical: size.height * .015),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(16),
                   ),
                 ),
                 child: const Text(
                   "Sign in",
-                  style: TextStyle(color: Colors.white, fontSize: 20),
+                  style: TextStyle(color: Colors.white, fontSize: 18),
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 32),
+          SizedBox(height: size.height * .03),
           Row(
             children: [
-              const Text(
+              Text(
                 "Continue as ",
                 style: TextStyle(
-                  fontSize: 20,
+                  fontSize: Theme.of(context).textTheme.titleMedium!.fontSize,
                   color: Color(0xFF666666),
                 ),
               ),
-              const Text(
+              Text(
                 "guest",
                 style: TextStyle(
-                  fontSize: 20,
+                  fontSize: Theme.of(context).textTheme.titleMedium!.fontSize,
                   fontWeight: FontWeight.bold,
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 32),
-          const Text(
-            "By continuing , you agree to our ",
+          SizedBox(height: size.height * .03),
+          Text(
+            "By continuing , you agree to our",
             textAlign: TextAlign.center,
             style: TextStyle(
-              fontSize: 16,
+              fontSize: Theme.of(context).textTheme.titleSmall!.fontSize,
               color: Color(0xFF666666),
             ),
           ),
-          TextButton(
-            onPressed: () {},
-            child: Text(
-              "Terms and conditions",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-                decoration: TextDecoration.underline,
-              ),
+          Text(
+            "Terms and conditions",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: Theme.of(context).textTheme.titleSmall!.fontSize,
+              fontWeight: FontWeight.bold,
+              decoration: TextDecoration.underline,
+              color: Colors.black,
             ),
           ),
         ],

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:mool/widgets/home/collections_slider.dart';
 import 'package:mool/widgets/home/delivery.dart';
+import 'package:mool/widgets/home/new_arrival.dart';
+import 'package:mool/widgets/home/other_collections.dart';
 import 'package:mool/widgets/home/slider_category.dart';
+import 'package:mool/widgets/home/top_brands.dart';
 import 'package:mool/widgets/reuse/custom_scaffold_header_home.dart';
 
 class Home extends StatelessWidget {
@@ -17,6 +20,9 @@ class Home extends StatelessWidget {
             SliderCategory(),
             Delivery(),
             CollectionsSlider(),
+            OtherCollections(),
+            TopBrands(),
+            NewArrival(),
           ],
         ),
       ),

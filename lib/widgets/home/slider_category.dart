@@ -7,20 +7,20 @@ class SliderCategory extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 106,
+      height: 110,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
+        padding: const EdgeInsets.only(left: 16),
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
-          itemCount: sliderCategories.length,
+          itemCount: categories.length,
           itemBuilder: (context, index) {
-            final category = sliderCategories[index];
+            final category = categories[index];
             return Padding(
               padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 5),
               child: Column(
                 children: [
                   CircleAvatar(
-                    radius: 24,
+                    radius: 26,
                     backgroundImage: AssetImage(category.imageUrl),
                   ),
                   SizedBox(height: 4),
@@ -38,5 +38,6 @@ class SliderCategory extends StatelessWidget {
         ),
       ),
     );
+  
   }
 }

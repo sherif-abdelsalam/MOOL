@@ -1,9 +1,6 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:mool/icons/arrow_back_icon.dart';
 import 'package:mool/widgets/reuse/forget_reset_header.dart';
 import 'package:mool/widgets/singing/password.dart';
-import 'package:mool/widgets/singing/text_input.dart';
 
 class ResetPassword extends StatefulWidget {
   const ResetPassword({super.key});

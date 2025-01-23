@@ -26,14 +26,6 @@ class Categories extends StatelessWidget {
             CategoryGridItem(
               category: category,
             ),
-          for (final category in categories)
-            CategoryGridItem(
-              category: category,
-            ),
-          for (final category in categories)
-            CategoryGridItem(
-              category: category,
-            ),
         ],
       ),
     );

@@ -1,33 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mool/icons/arrow_back_icon.dart';
-import 'package:mool/widgets/signup_from.dart';
+import 'package:mool/widgets/singin_form.dart';
 
-class Signup extends StatefulWidget {
-  const Signup({super.key});
-
-  @override
-  State<Signup> createState() => _SignupState();
-}
-
-class _SignupState extends State<Signup> {
+class Signin extends StatelessWidget {
+  const Signin({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Image.asset("images/mool_logo.png", width: 145),
-      //   elevation: 0,
-      //   centerTitle: true,
-      //   backgroundColor: Colors.transparent,
-      //   // leading:
-      // ),
-      // extendBodyBehindAppBar: true,
       body: SingleChildScrollView(
         child: Stack(
           children: [
             Image.asset(
-              "images/register_back.png",
+              "images/signin_back.png",
               fit: BoxFit.cover,
               width: double.infinity,
+              // height: double.infinity,
             ),
             Positioned(
               left: 20,
@@ -38,7 +26,7 @@ class _SignupState extends State<Signup> {
               left: 0,
               right: 0,
               bottom: 0,
-              child: SignupFrom(), // Make SignupFrom scrollable
+              child: SigninForm(), // Make SignupFrom scrollable
             ),
           ],
         ),

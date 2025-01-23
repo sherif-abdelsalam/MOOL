@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mool/screens/signin.dart';
+import 'package:mool/screens/signup.dart';
 import 'package:mool/widgets/signing.dart';
 
 class Welcome extends StatefulWidget {
@@ -10,52 +12,37 @@ class Welcome extends StatefulWidget {
 
 class _WelcomeState extends State<Welcome> {
   void _signupScreen() {
-    Navigator.of(context).push(MaterialPageRoute(builder: (ctx) {
-      return Scaffold(
-        appBar: AppBar(
-          title: const Text("Signup page"),
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back_ios,
-                color: Colors.black), // Custom back button icon
-            onPressed: () {
-              // Define the behavior when the button is pressed
-              Navigator.of(context).pop();
-            },
-          ),
-        ),
-        body: Center(child: Text("Signup page")),
-      );
-    }));
+    Navigator.of(context).push(MaterialPageRoute(builder: (ctx) => Signup()));
   }
 
   void _signinScreen() {
-    Navigator.of(context).push(MaterialPageRoute(builder: (ctx) {
-      return Scaffold(
-        appBar: AppBar(
-          title: Text("Signin page"),
-        ),
-        body: Center(child: Text("Signin page")),
-      );
-    }));
+    Navigator.of(context).push(MaterialPageRoute(builder: (ctx) => Signin()));
   }
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size; // Screen size
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        const SizedBox(height: 32),
-        Center(child: Image.asset("images/welcome.png")),
-        const SizedBox(height: 32),
-        const Text(
-          "   Find the\n   best Collection ",
-          style: TextStyle(
-            fontSize: 32,
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
+        SizedBox(height: size.height * 0.04), // 5% of screen height
+        Center(
+          child: Image.asset(
+            "images/welcome.png",
+            height: size.height * 0.25, // Adjust image size
           ),
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: size.height * 0.02), // 5% of screen height
+        Text(
+          "    Find the\n    best Collection ",
+          style: TextStyle(
+            fontSize: Theme.of(context).textTheme.headlineMedium!.fontSize,
+            color: Theme.of(context).colorScheme.onPrimary,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        SizedBox(height: size.height * 0.02),
         SigningButtons(
           onRegister: _signupScreen, // Pass instance methods
           onLogin: _signinScreen,

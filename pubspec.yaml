@@ -35,6 +35,17 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
   icons_plus: ^5.0.0
+  flutter_svg: ^2.0.17
+  # country_picker: ^2.0.27
+  country_picker: ^2.0.27
+  intl_phone_field: ^3.2.0
+  flutter_social_button: ^1.1.6+1
+  transparent_image: ^2.0.1
+  carousel_slider: ^5.0.0
+  uuid: ^4.5.1
+
+
+  # csc_picker: ^0.2.7
 
 dev_dependencies:
   flutter_test:
@@ -63,6 +74,44 @@ flutter:
     - images/mool_back.png
     - images/mool_logo.png
     - images/welcome.png
+    - images/arrow-square-left.png
+    - images/arrow-square-left.svg
+    - images/sign_image.jpg
+    - images/signup_background.png
+    - images/register_back.png
+    - images/signin_back.png
+    - images/google.png
+    - images/apple.png
+    - images/facebook.png
+    - images/otp.png
+    - images/otp.svg
+    - images/tops.png
+    - images/bottoms.png
+    - images/dresses.png
+    - images/search-normal.svg
+    - images/flash_sale.png
+    - images/view_all.png
+    - images/tshirts.png
+    - images/sale.png
+    - images/nightwear.png
+    - images/notification.svg
+    - images/truck-fast.svg
+    - images/collection_1.png
+    - images/collection_2.png
+    - images/accessories.png
+    - images/vacation_wear.png
+    - images/h_m.png
+    - images/loft.png
+    - images/zara.png
+    - images/nike.png
+    - images/chanel.png
+    - images/levi_s.png
+    - images/red_dress.png
+    - images/yellow_dress.png
+    - images/pink_dress.png
+    - images/gray_top.png
+    - images/night_wear.png
+    - images/notify.png
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
@@ -76,15 +125,44 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Roboto
-  #     fonts:
-  #       - asset: Roboto-Italic-VariableFont_wdth,wght.ttf
-  #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
-  #       - asset: fonts/TrajanPro_Bold.ttf
-  #         weight: 700
-  #
-  # For details regarding fonts from package dependencies,
-  # see https://flutter.dev/to/font-from-package
+  fonts:
+    - family: Roboto
+      fonts:
+        - asset: fonts/Roboto-Regular.ttf
+        - asset: fonts/Roboto-Bold.ttf
+          weight: 700
+        - asset: fonts/Roboto-Italic.ttf
+          style: italic
+        - asset: fonts/Roboto-BoldItalic.ttf
+          weight: 700
+          style: italic
+        - asset: fonts/Roboto-Light.ttf
+          weight: 300
+        - asset: fonts/Roboto-LightItalic.ttf
+          weight: 300
+          style: italic
+        - asset: fonts/Roboto-Medium.ttf
+          weight: 500
+        - asset: fonts/Roboto-MediumItalic.ttf
+          weight: 500
+          style: italic
+        - asset: fonts/Roboto-Thin.ttf
+          weight: 100
+        - asset: fonts/Roboto-ThinItalic.ttf
+          weight: 100
+          style: italic
+        - asset: fonts/Roboto-Black.ttf
+          weight: 900
+        - asset: fonts/Roboto-BlackItalic.ttf
+          weight: 900
+          style: italic
+        - asset: fonts/Roboto-ExtraBold.ttf
+          weight: 800
+        - asset: fonts/Roboto-ExtraBoldItalic.ttf
+          weight: 800
+          style: italic
+        - asset: fonts/Roboto-ExtraLight.ttf
+          weight: 200
+        - asset: fonts/Roboto-ExtraLightItalic.ttf
+          weight: 200
+          style: italic

@@ -39,7 +39,8 @@ class _AnimatedLogoState extends State<AnimatedLogo>
 
   @override
   Widget build(BuildContext context) {
-    double logoSize = showContent ? 150 : 400;
+    final size = MediaQuery.of(context).size; // Screen size
+    double logoSize = showContent ? size.width*.4 : size.width*.8;
     Widget content = AnimatedBuilder(
       animation: _controller,
       builder: (context, child) {
