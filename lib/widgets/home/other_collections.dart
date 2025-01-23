@@ -5,17 +5,18 @@ class OtherCollections extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.symmetric(vertical: 16),
-      child: Expanded(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset("images/accessories.png"),
-            Image.asset("images/vacation_wear.png"),
-          ],
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Image.asset(
+          "images/accessories.png",
+          fit: BoxFit.cover,
         ),
-      ),
+        Image.asset(
+          "images/vacation_wear.png",
+          fit: BoxFit.cover,
+        ),
+      ],
     );
   }
 }

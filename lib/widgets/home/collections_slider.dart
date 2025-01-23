@@ -84,7 +84,7 @@ class _CollectionsSliderState extends State<CollectionsSlider> {
             autoPlayCurve: Curves.fastOutSlowIn,
             scrollDirection: Axis.horizontal,
             enlargeFactor:
-                0.3, // This controls how much the center item enlarges
+                0.16,
             onPageChanged: (index, reason) {
               setState(() {
                 _currentIndex = index;
