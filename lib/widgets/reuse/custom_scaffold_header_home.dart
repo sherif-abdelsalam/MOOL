@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mool/screens/notifications.dart';
 
 class CustomScaffoldHeaderHome extends StatefulWidget {
   const CustomScaffoldHeaderHome({super.key, required this.bodyContent});
@@ -13,7 +14,6 @@ class CustomScaffoldHeaderHome extends StatefulWidget {
 
 class _CustomScaffoldHeaderHomeState extends State<CustomScaffoldHeaderHome> {
   bool isWomenSelected = true; // Default selection
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,7 +47,15 @@ class _CustomScaffoldHeaderHomeState extends State<CustomScaffoldHeaderHome> {
                         SizedBox(
                           width: 12,
                         ),
-                        SvgPicture.asset("images/notification.svg"),
+                        GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (ctx) => Notifications(),
+                                ),
+                              );
+                            },
+                            child: SvgPicture.asset("images/notification.svg")),
                       ],
                     ),
                     SizedBox(height: 16),
@@ -80,7 +88,25 @@ class _CustomScaffoldHeaderHomeState extends State<CustomScaffoldHeaderHome> {
               ),
             ],
           ),
-          Expanded(child: widget.bodyContent),
+          Expanded(child: isWomenSelected ? widget.bodyContent : _menWidget()),
+        ],
+      ),
+    );
+  }
+
+  Widget _menWidget() {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            "Uh..oh no products are found!",
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal),
+          ),
+          Text(
+            "Try visiting us soon!",
+            style: TextStyle(fontSize: 14, fontWeight: FontWeight.normal),
+          ),
         ],
       ),
     );
