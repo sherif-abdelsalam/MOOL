@@ -1,11 +1,8 @@
 // import 'package:csc_picker/csc_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
-import 'package:mool/data/dummy_categories.dart';
-import 'package:mool/main.dart';
-import 'package:mool/screens/categories.dart';
-import 'package:mool/screens/home.dart';
 import 'package:mool/screens/signin.dart';
+import 'package:mool/screens/tabs.dart';
 import 'package:mool/widgets/singing/email_input.dart';
 import 'package:mool/widgets/singing/password.dart';
 import 'package:mool/widgets/singing/social_sigin.dart';
@@ -28,7 +25,7 @@ class _SignupFromState extends State<SignupFrom> {
 
   void _saveUser() {
     Navigator.of(context)
-        .pushReplacement(MaterialPageRoute(builder: (ctx) => Home()));
+        .pushReplacement(MaterialPageRoute(builder: (ctx) => TabsScreen()));
 
     // if (_formKey.currentState!.validate()) {
     //   _formKey.currentState!.save();

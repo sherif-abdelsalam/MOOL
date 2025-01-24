@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mool/widgets/animated_logo.dart';
+import 'package:mool/widgets/singing/animated_logo.dart';
 
 class LogoScreen extends StatelessWidget {
   const LogoScreen({super.key});

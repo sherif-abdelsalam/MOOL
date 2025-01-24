@@ -39,7 +39,13 @@ class _NewArrivalScreenState extends State<NewArrivalScreen> {
         crossAxisCount: 2,
         childAspectRatio: 156 / 250,
       ),
-      children: [for (final p in dummyProducts) ProductCard(product: p)],
+      children: [
+        for (final p in dummyProducts)
+          ProductCard(
+            product: p,
+            identifierBestOrNew: 'best',
+          )
+      ],
     );
   }
 

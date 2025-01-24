@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mool/widgets/welcome.dart';
+import 'package:mool/widgets/singing/welcome.dart';
 
 class AnimatedLogo extends StatefulWidget {
   const AnimatedLogo({super.key});

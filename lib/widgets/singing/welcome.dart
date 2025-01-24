@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mool/screens/signin.dart';
 import 'package:mool/screens/signup.dart';
-import 'package:mool/widgets/signing.dart';
+import 'package:mool/widgets/singing/signing.dart';
 
 class Welcome extends StatefulWidget {
   const Welcome({super.key});

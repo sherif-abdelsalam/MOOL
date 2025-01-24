@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mool/icons/arrow_back_icon.dart';
-import 'package:mool/widgets/signup_from.dart';
+import 'package:mool/widgets/singing/signup_from.dart';
 
 class Signup extends StatefulWidget {
   const Signup({super.key});

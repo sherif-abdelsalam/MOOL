@@ -32,7 +32,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return CustomScaffoldHeaderHome(
       bodyContent: Container(
-        color: const Color(0xFFE9E8E8),
+        color: Color(0xFFE9E8E8),
         child: ListView(
           children: [
             SliderCategory(),
@@ -43,11 +43,17 @@ class _HomeState extends State<Home> {
             SizedBox(height: 32),
             TopBrands(),
             NewBestProducts(
-                title: "New Arrivals", onNavigate: setNewArrivalScreen),
+              title: "New Arrivals",
+              onNavigate: setNewArrivalScreen,
+              identifier: "new",
+            ),
             SizedBox(height: 32),
             DiscountBanner(),
             NewBestProducts(
-                title: "Best Sellers", onNavigate: setBestSellersScreen),
+              title: "Best Sellers",
+              onNavigate: setBestSellersScreen,
+              identifier: "best",
+            ),
             SizedBox(height: 64),
           ],
         ),

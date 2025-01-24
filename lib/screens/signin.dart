@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mool/icons/arrow_back_icon.dart';
-import 'package:mool/widgets/singin_form.dart';
+import 'package:mool/widgets/singing/singin_form.dart';
 
 class Signin extends StatelessWidget {
   const Signin({super.key});

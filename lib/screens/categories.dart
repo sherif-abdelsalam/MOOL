@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mool/data/dummy_categories.dart';
-import 'package:mool/widgets/category_item.dart';
+import 'package:mool/widgets/singing/category_item.dart';
 import 'package:mool/widgets/reuse/custom_scaffold_header.dart';
 
 class Categories extends StatelessWidget {

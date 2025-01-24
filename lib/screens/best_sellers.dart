@@ -15,14 +15,21 @@ class BestSellersScreen extends StatelessWidget {
       ),
     );
   }
-    Widget _bodyContent() {
+
+  Widget _bodyContent() {
     return GridView(
       padding: EdgeInsets.all(8),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         childAspectRatio: 156 / 250,
       ),
-      children: [for (final p in dummyProducts) ProductCard(product: p)],
+      children: [
+        for (final p in dummyProducts)
+          ProductCard(
+            product: p,
+            identifierBestOrNew: 'new',
+          )
+      ],
     );
   }
 }

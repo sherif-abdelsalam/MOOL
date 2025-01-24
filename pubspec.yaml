@@ -2,7 +2,7 @@ name: mool
 description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -43,7 +43,12 @@ dependencies:
   transparent_image: ^2.0.1
   carousel_slider: ^5.0.0
   uuid: ^4.5.1
+  riverpod: ^2.6.1
+  flutter_launcher_icons: ^0.14.3
 
+flutter_icons:
+  android: true
+  image_path: "images/mool_app_icon.png"
 
   # csc_picker: ^0.2.7
 
@@ -63,7 +68,6 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
@@ -112,7 +116,7 @@ flutter:
     - images/gray_top.png
     - images/night_wear.png
     - images/notify.png
-
+    - images/elegant_blazer.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
