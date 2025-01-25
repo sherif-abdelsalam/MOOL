@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:mool/data/dummy_reviews.dart';
 import 'package:mool/models/product.dart';
+import 'package:mool/models/rating_result.dart';
+import 'package:mool/models/review.dart';
+import 'package:mool/screens/reviews.dart';
 import 'package:mool/widgets/product_details/product_info.dart';
+import 'package:mool/widgets/product_details/rating_lines.dart';
+import 'package:mool/widgets/product_details/reviews.dart';
+import 'package:mool/widgets/product_details/see_all_reviews.dart';
 import 'package:mool/widgets/product_details/service_feature.dart';
 import 'package:mool/widgets/product_details/subtitles_style.dart';
 import 'package:mool/widgets/reuse/custom_scaffold_header.dart';
@@ -10,9 +17,71 @@ class ProductDetails extends StatelessWidget {
       {super.key, required this.product, required this.identifier});
   final Product product;
   final String identifier;
+
+  RatingResult getAverageRating(List<Review> revs) {
+    double sumRatings = 0;
+    Map<int, int> frequencyRatings = {};
+
+    for (int i = 0; i < revs.length; i++) {
+      double rate = revs[i].rating;
+      sumRatings += rate;
+      frequencyRatings[rate.toInt()] =
+          (frequencyRatings[rate.toInt()] ?? 0) + 1;
+    }
+    return RatingResult(sumRatings / revs.length, frequencyRatings);
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final reviews =
+        dummyReviews.where((rev) => rev.productId == product.id).toList();
+
+    Widget reviewContent = Center(
+      child: Text(
+        "No reviews for this product",
+        style: TextStyle(
+          fontSize: 14,
+          color: Color(0xff4E4E4E),
+        ),
+      ),
+    );
+    if (reviews.isNotEmpty) {
+      var avgRating = 0.0;
+      Map<int, int> frequencyRatings = {};
+      RatingResult res = getAverageRating(reviews);
+      avgRating = res.averageRating;
+      frequencyRatings = res.frequencyRatings;
+      reviewContent = Column(
+        children: [
+          RatingLines(
+            avgRatings: avgRating,
+            frequencyRatings: frequencyRatings,
+            reviewsLength: reviews.length,
+          ),
+          Reviews(
+            revs: [reviews[0]],
+          ),
+          GestureDetector(
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (ctx) => ReviewsScreen(
+                      revs: reviews,
+                      ratingLines: RatingLines(
+                        avgRatings: avgRating,
+                        frequencyRatings: frequencyRatings,
+                        reviewsLength: reviews.length,
+                      ),
+                    ),
+                  ),
+                );
+              },
+              child: SeeAllReviews()),
+        ],
+      );
+    }
+
     return CustomScaffoldHeader(
         title: product.title,
         bodyContent: Container(
@@ -64,6 +133,8 @@ class ProductDetails extends StatelessWidget {
                 _returnPolicy(),
                 SizedBox(height: 4),
                 _productDetailsInfo(),
+                SizedBox(height: 4),
+                reviewContent,
                 SizedBox(height: 4),
                 _packagingAndReturn(),
               ],
@@ -260,7 +331,7 @@ class ProductDetails extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ServiceFeature(
-            icon: Icons.check_circle_outline,
+            icon: Icons.verified_user_rounded,
             title: 'Safe packaging',
             description: 'Orders are sanitized\nand packed',
           ),
