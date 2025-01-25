@@ -45,6 +45,7 @@ dependencies:
   uuid: ^4.5.1
   riverpod: ^2.6.1
   flutter_launcher_icons: ^0.14.3
+  intl: ^0.20.2
 
 flutter_icons:
   android: true
@@ -117,6 +118,7 @@ flutter:
     - images/night_wear.png
     - images/notify.png
     - images/elegant_blazer.png
+    - images/user.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
