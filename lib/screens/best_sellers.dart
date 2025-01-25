@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mool/data/dummy_categories.dart';
+import 'package:mool/data/dummy_products.dart';
 import 'package:mool/widgets/home/product_card.dart';
 import 'package:mool/widgets/reuse/custom_scaffold_header.dart';
 
