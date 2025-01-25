@@ -4,6 +4,7 @@ import 'package:mool/models/product.dart';
 import 'package:mool/models/rating_result.dart';
 import 'package:mool/models/review.dart';
 import 'package:mool/screens/reviews.dart';
+import 'package:mool/screens/write_review.dart';
 import 'package:mool/widgets/product_details/product_info.dart';
 import 'package:mool/widgets/product_details/rating_lines.dart';
 import 'package:mool/widgets/product_details/reviews.dart';
@@ -135,12 +136,42 @@ class ProductDetails extends StatelessWidget {
                 _productDetailsInfo(),
                 SizedBox(height: 4),
                 reviewContent,
-                SizedBox(height: 4),
+                SizedBox(height: 12),
+                GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (ctx) => WriteReviewScreen()));
+                    },
+                    child: _writeReview()),
+                SizedBox(height: 12),
                 _packagingAndReturn(),
+                SizedBox(height: 18),
               ],
             ),
           ),
         ));
+  }
+
+  Widget _writeReview() {
+    return Container(
+      color: Colors.white,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        child: Row(
+          children: [
+            Text(
+              "Write Review",
+              textAlign: TextAlign.start,
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+                color: Color(0xff38BCDD),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   Widget _productDetailsInfo() {
