@@ -3,12 +3,12 @@
 class Review {
   Review({
     required this.id,
-    required this.productId,  // Foreign key to Product
+    required this.productId,  
     required this.userName,
     required this.rating,
     required this.comment,
     required this.date,
-    this.userImage,  // Optional user profile image
+    this.userImage,
   });
 
   final String id;
