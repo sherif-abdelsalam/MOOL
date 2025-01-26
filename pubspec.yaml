@@ -43,9 +43,9 @@ dependencies:
   transparent_image: ^2.0.1
   carousel_slider: ^5.0.0
   uuid: ^4.5.1
-  riverpod: ^2.6.1
   flutter_launcher_icons: ^0.14.3
   intl: ^0.20.2
+  flutter_riverpod: ^2.6.1
 
 flutter_icons:
   android: true

@@ -4,11 +4,12 @@ import 'package:mool/models/product.dart';
 import 'package:mool/widgets/home/product_card.dart';
 
 class NewBestProducts extends StatelessWidget {
-  const NewBestProducts(
-      {super.key,
-      required this.title,
-      required this.onNavigate,
-      required this.identifier});
+  const NewBestProducts({
+    super.key,
+    required this.title,
+    required this.onNavigate,
+    required this.identifier,
+  });
   final String title;
   final void Function() onNavigate;
   final String identifier;

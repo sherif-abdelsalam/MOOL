@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mool/data/dummy_reviews.dart';
 import 'package:mool/models/product.dart';
 import 'package:mool/models/rating_result.dart';
 import 'package:mool/models/review.dart';
+import 'package:mool/providers/favorites_provider.dart';
 import 'package:mool/screens/reviews.dart';
 import 'package:mool/screens/write_review.dart';
+import 'package:mool/utils/show_snack_bar.dart';
 import 'package:mool/widgets/product_details/product_info.dart';
 import 'package:mool/widgets/product_details/rating_lines.dart';
 import 'package:mool/widgets/product_details/reviews.dart';
@@ -13,7 +16,7 @@ import 'package:mool/widgets/product_details/service_feature.dart';
 import 'package:mool/widgets/product_details/subtitles_style.dart';
 import 'package:mool/widgets/reuse/custom_scaffold_header.dart';
 
-class ProductDetails extends StatelessWidget {
+class ProductDetails extends ConsumerWidget {
   const ProductDetails(
       {super.key, required this.product, required this.identifier});
   final Product product;
@@ -33,7 +36,7 @@ class ProductDetails extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final size = MediaQuery.of(context).size;
     final reviews =
         dummyReviews.where((rev) => rev.productId == product.id).toList();
@@ -83,6 +86,18 @@ class ProductDetails extends StatelessWidget {
       );
     }
 
+
+
+    void toggleFavoriteProduct() {
+      final isAdded = ref
+          .read(favoriteProductProvider.notifier)
+          .toggleMealNotifier(product);
+      showSnackBar(context,isAdded);
+    }
+
+    final favoriteProducts = ref.watch(favoriteProductProvider);
+    final isFavorite = favoriteProducts.contains(product);
+
     return CustomScaffoldHeader(
         title: product.title,
         bodyContent: Container(
@@ -100,6 +115,37 @@ class ProductDetails extends StatelessWidget {
                         child: Image.asset(
                           product.imageUrl,
                           fit: BoxFit.cover,
+                        ),
+                      ),
+                      Positioned(
+                        right: 16,
+                        bottom: 20,
+                        child: GestureDetector(
+                          onTap: toggleFavoriteProduct,
+                          child: Container(
+                            width: 52,
+                            height: 52,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              shape: BoxShape.circle,
+                            ),
+                            child: AnimatedSwitcher(
+                              duration: Duration(milliseconds: 300),
+                              transitionBuilder: (child, animation) {
+                                return ScaleTransition(
+                                  scale: Tween<double>(
+                                    begin: 3,
+                                    end: 1,
+                                  ).animate(animation),
+                                  child: child,
+                                );
+                              },
+                              child: Icon(
+                                isFavorite ? Icons.favorite_rounded : Icons.favorite_border_rounded,
+                                key: ValueKey(isFavorite),
+                              ),
+                            ),
+                          ),
                         ),
                       ),
                       Positioned(
@@ -138,11 +184,18 @@ class ProductDetails extends StatelessWidget {
                 reviewContent,
                 SizedBox(height: 12),
                 GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (ctx) => WriteReviewScreen()));
-                    },
-                    child: _writeReview()),
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (ctx) => WriteReviewScreen(
+                          revsLen: reviews.length,
+                          prodId: product.id,
+                        ),
+                      ),
+                    );
+                  },
+                  child: _writeReview(),
+                ),
                 SizedBox(height: 12),
                 _packagingAndReturn(),
                 SizedBox(height: 18),

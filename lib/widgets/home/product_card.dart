@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mool/models/product.dart';
+import 'package:mool/providers/favorites_provider.dart';
 import 'package:mool/screens/product_details.dart';
+import 'package:mool/utils/show_snack_bar.dart';
 
-class ProductCard extends StatelessWidget {
+class ProductCard extends ConsumerWidget {
   const ProductCard(
       {super.key, required this.product, required this.identifierBestOrNew});
 
@@ -10,8 +13,17 @@ class ProductCard extends StatelessWidget {
   final String identifierBestOrNew;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     double? saleAmount = product.discount;
+    final favoriteProducts = ref.watch(favoriteProductProvider);
+    final isFavorite = favoriteProducts.contains(product);
+
+    void toggleFavoriteProduct() {
+      final isAdded = ref
+          .read(favoriteProductProvider.notifier)
+          .toggleMealNotifier(product);
+      showSnackBar(context, isAdded);
+    }
 
     return InkWell(
       onTap: () {
@@ -47,14 +59,34 @@ class ProductCard extends StatelessWidget {
                 Positioned(
                   right: 10,
                   top: 10,
-                  child: Container(
-                    width: 40,
-                    height: 40,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      shape: BoxShape.circle,
+                  child: GestureDetector(
+                    onTap: toggleFavoriteProduct,
+                    child: Container(
+                      width: 40,
+                      height: 40,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        shape: BoxShape.circle,
+                      ),
+                      child: AnimatedSwitcher(
+                        duration: Duration(milliseconds: 300),
+                        transitionBuilder: (child, animation) {
+                          return ScaleTransition(
+                            scale: Tween<double>(
+                              begin: 3,
+                              end: 1,
+                            ).animate(animation),
+                            child: child,
+                          );
+                        },
+                        child: Icon(
+                          isFavorite
+                              ? Icons.favorite_rounded
+                              : Icons.favorite_border_rounded,
+                          key: ValueKey(isFavorite),
+                        ),
+                      ),
                     ),
-                    child: Icon(Icons.favorite_border_rounded),
                   ),
                 ),
                 saleAmount == null
