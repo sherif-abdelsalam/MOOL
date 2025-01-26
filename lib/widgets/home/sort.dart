@@ -1,109 +1,84 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mool/providers/sort_provider.dart';
 
-class Sort extends StatefulWidget {
+class Sort extends ConsumerWidget {
   const Sort({super.key});
 
   @override
-  State<Sort> createState() => _SortState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final selectedOption = ref.watch(sortProvider);
 
-class _SortState extends State<Sort> {
-  var isCheckedPriceToLow = false;
-  var isCheckedPriceToHigh = false;
-  var isCheckedRating = false;
-  var isCheckedNewArrival = false;
-
-  void checkPriceHighToLow() {
-    setState(() {
-      isCheckedPriceToLow = !isCheckedPriceToLow;
-      if (isCheckedPriceToHigh) {
-        isCheckedPriceToHigh = false;
-      }
-    });
-  }
-
-  void checkPriceLowToHigh() {
-    setState(() {
-      isCheckedPriceToHigh = !isCheckedPriceToHigh;
-      if (isCheckedPriceToLow) {
-        isCheckedPriceToLow = false;
-      }
-    });
-  }
-
-  void checkNewArrival() {
-    setState(() {
-      isCheckedNewArrival = !isCheckedNewArrival;
-    });
-  }
-
-  void checkRatingHighToLow() {
-    setState(() {
-      isCheckedRating = !isCheckedRating;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Padding(
-            padding: const EdgeInsets.all(16.0),
+          const Padding(
+            padding: EdgeInsets.all(16.0),
             child: Text(
               "Sorting",
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
           ),
-          ListTile(
-            title: _style(title: "Price : High to Low"),
-            trailing: GestureDetector(
-                onTap: checkPriceHighToLow,
-                child: _checkBox(checker: isCheckedPriceToLow)),
+          _buildSortTile(
+            title: "Price : High to Low",
+            option: SortOption.priceHighToLow,
+            selectedOption: selectedOption,
+            ref: ref,
           ),
-          ListTile(
-            title: _style(title: "Price : Low to High"),
-            trailing: GestureDetector(
-                onTap: checkPriceLowToHigh,
-                child: _checkBox(checker: isCheckedPriceToHigh)),
+          _buildSortTile(
+            title: "Price : Low to High",
+            option: SortOption.priceLowToHigh,
+            selectedOption: selectedOption,
+            ref: ref,
           ),
-          ListTile(
-            title: _style(title: "New Arrival"),
-            trailing: GestureDetector(
-                onTap: checkNewArrival,
-                child: _checkBox(checker: isCheckedNewArrival)),
+          _buildSortTile(
+            title: "New Arrival",
+            option: SortOption.newArrival,
+            selectedOption: selectedOption,
+            ref: ref,
           ),
-          ListTile(
-            title: _style(title: "Rating : High to Low"),
-            trailing: GestureDetector(
-                onTap: checkRatingHighToLow,
-                child: _checkBox(checker: isCheckedRating)),
+          _buildSortTile(
+            title: "Rating : High to Low",
+            option: SortOption.ratingHighToLow,
+            selectedOption: selectedOption,
+            ref: ref,
           ),
         ],
       ),
     );
   }
 
-  Widget _checkBox({required checker}) {
-    return checker
-        ? Icon(
-            Icons.check_circle_rounded,
-            size: 28,
-          )
-        : Icon(
-            Icons.check_circle_outline_rounded,
-            size: 28,
-            opticalSize: 5,
-          );
+  Widget _buildSortTile({
+    required String title,
+    required SortOption option,
+    required SortOption selectedOption,
+    required WidgetRef ref,
+  }) {
+    return ListTile(
+      title: _style(title: title),
+      trailing: GestureDetector(
+        onTap: () => ref.read(sortProvider.notifier).setSort(option),
+        child: _checkBox(isSelected: selectedOption == option),
+      ),
+      onTap: () => ref.read(sortProvider.notifier).setSort(option),
+    );
   }
 
-  Widget _style({required title}) {
+  Widget _checkBox({required bool isSelected}) {
+    return Icon(
+      isSelected ? Icons.check_circle_rounded : Icons.check_circle_outline_rounded,
+      size: 28,
+      opticalSize: isSelected ? null : 5,
+    );
+  }
+
+  Widget _style({required String title}) {
     return Text(
       title,
-      style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+      style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
     );
   }
 }

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mool/data/dummy_reviews.dart';
 import 'package:mool/models/review.dart';
+import 'package:mool/providers/reviews_provider.dart';
 import 'package:mool/widgets/reuse/custom_scaffold_header.dart';
 
-class WriteReviewScreen extends StatefulWidget {
+class WriteReviewScreen extends ConsumerStatefulWidget {
   const WriteReviewScreen(
       {super.key, required this.revsLen, required this.prodId});
   final int revsLen;
@@ -12,7 +14,7 @@ class WriteReviewScreen extends StatefulWidget {
   createState() => _WriteReviewScreenState();
 }
 
-class _WriteReviewScreenState extends State<WriteReviewScreen> {
+class _WriteReviewScreenState extends ConsumerState<WriteReviewScreen> {
   int _selectedRating = 0;
 
   final TextEditingController _commentController = TextEditingController();
@@ -33,9 +35,7 @@ class _WriteReviewScreenState extends State<WriteReviewScreen> {
       date: DateTime.now(),
     );
 
-    setState(() {
-      dummyReviews.add(newRev);
-    });
+    ref.read(reviewsProvider.notifier).addReview(newRev);
     Navigator.of(context).pop();
   }
 

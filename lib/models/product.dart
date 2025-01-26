@@ -19,6 +19,7 @@ class Product {
     this.isBestSeller,
     this.isNew,
     required this.productCode,
+    required this.date
   });
 
   final String id;
@@ -38,4 +39,5 @@ class Product {
   final bool? isNew;
   final bool? isBestSeller;
   final String productCode;
+  final DateTime date;
 }

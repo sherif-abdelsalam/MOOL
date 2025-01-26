@@ -1,17 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mool/data/dummy_products.dart';
+import 'package:mool/models/product.dart';
+import 'package:mool/providers/sort_new_arrivals_provider.dart';
+import 'package:mool/providers/sort_provider.dart';
 import 'package:mool/widgets/home/product_card.dart';
 import 'package:mool/widgets/home/sort.dart';
 import 'package:mool/widgets/reuse/custom_scaffold_header.dart';
 
-class NewArrivalScreen extends StatefulWidget {
+class NewArrivalScreen extends ConsumerStatefulWidget {
   const NewArrivalScreen({super.key});
 
   @override
-  State<NewArrivalScreen> createState() => _NewArrivalScreenState();
+  createState() => _NewArrivalScreenState();
 }
 
-class _NewArrivalScreenState extends State<NewArrivalScreen> {
+class _NewArrivalScreenState extends ConsumerState<NewArrivalScreen> {
+
   void _openSortOverlaySheet() {
     showModalBottomSheet(
       context: context,
@@ -21,18 +26,25 @@ class _NewArrivalScreenState extends State<NewArrivalScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // final newArrivals =
+    //     dummyProducts.where((prod) => prod.isNew == true).toList();
+
+    final newArrivals = ref.watch(sortedNewArrivalsProvider);
+
     return CustomScaffoldHeader(
       title: "New Arrivals",
       bodyContent: Column(
         children: [
-          Expanded(child: _bodyContent()), // Wrap in Expanded
+          Expanded(
+              child:
+                  _bodyContent(newArrivals: newArrivals)), // Wrap in Expanded
           _bottomContent(),
         ],
       ),
     );
   }
 
-  Widget _bodyContent() {
+  Widget _bodyContent({required List<Product> newArrivals}) {
     return GridView(
       padding: EdgeInsets.all(8),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -40,7 +52,7 @@ class _NewArrivalScreenState extends State<NewArrivalScreen> {
         childAspectRatio: 156 / 250,
       ),
       children: [
-        for (final p in dummyProducts)
+        for (final p in newArrivals)
           ProductCard(
             product: p,
             identifierBestOrNew: 'best',

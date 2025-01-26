@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mool/data/dummy_products.dart';
 import 'package:mool/models/product.dart';
 import 'package:mool/widgets/home/product_card.dart';
 
@@ -9,15 +8,15 @@ class NewBestProducts extends StatelessWidget {
     required this.title,
     required this.onNavigate,
     required this.identifier,
+    required this.newArrivalOrBest
   });
   final String title;
   final void Function() onNavigate;
   final String identifier;
+  final List<Product> newArrivalOrBest;
 
   @override
   Widget build(BuildContext context) {
-    List<Product> shuffledProducts = dummyProducts;
-    shuffledProducts.shuffle();
 
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -60,9 +59,9 @@ class NewBestProducts extends StatelessWidget {
             height: 270,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
-              itemCount: shuffledProducts.length,
+              itemCount: newArrivalOrBest.length,
               itemBuilder: (context, index) {
-                final product = shuffledProducts[index];
+                final product = newArrivalOrBest[index];
                 return ProductCard(
                   product: product,
                   identifierBestOrNew: identifier,

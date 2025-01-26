@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mool/data/dummy_reviews.dart';
 import 'package:mool/models/product.dart';
 import 'package:mool/models/rating_result.dart';
 import 'package:mool/models/review.dart';
 import 'package:mool/providers/favorites_provider.dart';
+import 'package:mool/providers/reviews_provider.dart';
 import 'package:mool/screens/reviews.dart';
 import 'package:mool/screens/write_review.dart';
 import 'package:mool/utils/show_snack_bar.dart';
@@ -38,15 +38,25 @@ class ProductDetails extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final size = MediaQuery.of(context).size;
+    final revs = ref.watch(reviewsProvider);
     final reviews =
-        dummyReviews.where((rev) => rev.productId == product.id).toList();
+        revs.where((rev) => rev.productId == product.id).toList();
 
     Widget reviewContent = Center(
-      child: Text(
-        "No reviews for this product",
-        style: TextStyle(
-          fontSize: 14,
-          color: Color(0xff4E4E4E),
+      child: Container(
+        color: Colors.white,
+        width: double.infinity,
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Center(
+            child: Text(
+              "No reviews for this product!",
+              style: TextStyle(
+                fontSize: 14,
+                color: Color(0xff4E4E4E),
+              ),
+            ),
+          ),
         ),
       ),
     );
@@ -86,13 +96,11 @@ class ProductDetails extends ConsumerWidget {
       );
     }
 
-
-
     void toggleFavoriteProduct() {
       final isAdded = ref
           .read(favoriteProductProvider.notifier)
           .toggleMealNotifier(product);
-      showSnackBar(context,isAdded);
+      showSnackBar(context, isAdded);
     }
 
     final favoriteProducts = ref.watch(favoriteProductProvider);
@@ -141,7 +149,9 @@ class ProductDetails extends ConsumerWidget {
                                 );
                               },
                               child: Icon(
-                                isFavorite ? Icons.favorite_rounded : Icons.favorite_border_rounded,
+                                isFavorite
+                                    ? Icons.favorite_rounded
+                                    : Icons.favorite_border_rounded,
                                 key: ValueKey(isFavorite),
                               ),
                             ),

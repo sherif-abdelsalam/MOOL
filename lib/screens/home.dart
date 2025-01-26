@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mool/data/dummy_products.dart';
 import 'package:mool/screens/best_sellers.dart';
 import 'package:mool/screens/new_arrival.dart';
 import 'package:mool/widgets/home/collections_slider.dart';
@@ -30,6 +31,11 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    final newArrivals =
+        dummyProducts.where((prod) => prod.isNew == true).toList();
+    final bestSellers =
+        dummyProducts.where((prod) => prod.isBestSeller == true).toList();
+
     return CustomScaffoldHeaderHome(
       bodyContent: Container(
         color: Color(0xFFE9E8E8),
@@ -46,6 +52,7 @@ class _HomeState extends State<Home> {
               title: "New Arrivals",
               onNavigate: setNewArrivalScreen,
               identifier: "new",
+              newArrivalOrBest: newArrivals,
             ),
             SizedBox(height: 32),
             DiscountBanner(),
@@ -53,6 +60,7 @@ class _HomeState extends State<Home> {
               title: "Best Sellers",
               onNavigate: setBestSellersScreen,
               identifier: "best",
+              newArrivalOrBest: bestSellers,
             ),
             SizedBox(height: 64),
           ],

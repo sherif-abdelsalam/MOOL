@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:mool/models/product.dart';
 
@@ -11,7 +10,12 @@ final dummyProducts = [
     price: 2500,
     brand: 'ZARA',
     sizes: ['XS', 'S', 'L', 'XL'],
-    colors: [Color(0xffFDDFCD), Color(0xff8C4117), Color(0xff292D32), Colors.white],
+    colors: [
+      Color(0xffFDDFCD),
+      Color(0xff8C4117),
+      Color(0xff292D32),
+      Colors.white
+    ],
     description: 'ZARA elegant Two-Button Fitted Blazer for Women',
     fabric: 'Cotton',
     model: 'S',
@@ -21,6 +25,7 @@ final dummyProducts = [
     discount: 15.0,
     isNew: false,
     isBestSeller: true,
+    date: DateTime(2023, 7, 22),
   ),
   Product(
     id: 'p2_summer_dress',
@@ -30,7 +35,12 @@ final dummyProducts = [
     price: 1800,
     brand: 'H&M',
     sizes: ['S', 'M', 'L'],
-    colors: [Color(0xffFDDFCD), Color(0xff8C4117), Color(0xff292D32), Colors.white],
+    colors: [
+      Color(0xffFDDFCD),
+      Color(0xff8C4117),
+      Color(0xff292D32),
+      Colors.white
+    ],
     description: 'Beautiful floral print summer dress perfect for any occasion',
     fabric: 'Polyester',
     model: 'M',
@@ -40,6 +50,7 @@ final dummyProducts = [
     discount: 20.0,
     isNew: true,
     isBestSeller: false,
+    date: DateTime(2024, 1, 5),
   ),
   Product(
     id: 'p3_cargo_pants',
@@ -49,7 +60,12 @@ final dummyProducts = [
     price: 1200,
     brand: 'Bershka',
     sizes: ['XS', 'S', 'M', 'L'],
-    colors: [Color(0xffFDDFCD), Color(0xff8C4117), Color(0xff292D32), Colors.white],
+    colors: [
+      Color(0xffFDDFCD),
+      Color(0xff8C4117),
+      Color(0xff292D32),
+      Colors.white
+    ],
     description: 'Trendy high-waist cargo pants with multiple pockets',
     fabric: 'Cotton Blend',
     model: 'L',
@@ -59,6 +75,7 @@ final dummyProducts = [
     discount: null,
     isNew: true,
     isBestSeller: true,
+    date: DateTime(2023, 11, 28),
   ),
   Product(
     id: 'p4_silk_blouse',
@@ -68,7 +85,12 @@ final dummyProducts = [
     price: 890,
     brand: 'Massimo Dutti',
     sizes: ['XS', 'S', 'M', 'L', 'XL'],
-    colors: [Color(0xffFDDFCD), Color(0xff8C4117), Color(0xff292D32), Colors.white],
+    colors: [
+      Color(0xffFDDFCD),
+      Color(0xff8C4117),
+      Color(0xff292D32),
+      Colors.white
+    ],
     description: 'Elegant silk blouse with button-down design',
     fabric: 'Silk',
     model: 'M',
@@ -78,6 +100,7 @@ final dummyProducts = [
     discount: null,
     isNew: false,
     isBestSeller: true,
+    date: DateTime(2024, 1, 20),
   ),
   Product(
     id: 'p5_maxi_dress',
@@ -87,7 +110,12 @@ final dummyProducts = [
     price: 3200,
     brand: 'ZARA',
     sizes: ['S', 'M', 'L'],
-    colors: [Color(0xffFDDFCD), Color(0xff8C4117), Color(0xff292D32), Colors.white],
+    colors: [
+      Color(0xffFDDFCD),
+      Color(0xff8C4117),
+      Color(0xff292D32),
+      Colors.white
+    ],
     description: 'Elegant evening maxi dress with side slit',
     fabric: 'Chiffon',
     model: 'S',
@@ -97,6 +125,7 @@ final dummyProducts = [
     discount: 25.0,
     isNew: false,
     isBestSeller: false,
+    date: DateTime(2023, 10, 8),
   ),
   Product(
     id: 'p6_denim_skirt',
@@ -106,7 +135,12 @@ final dummyProducts = [
     price: 750,
     brand: 'Pull&Bear',
     sizes: ['XS', 'S', 'M', 'L'],
-    colors: [Color(0xffFDDFCD), Color(0xff8C4117), Color(0xff292D32), Colors.white],
+    colors: [
+      Color(0xffFDDFCD),
+      Color(0xff8C4117),
+      Color(0xff292D32),
+      Colors.white
+    ],
     description: 'Classic denim mini skirt with raw hem',
     fabric: 'Denim',
     model: 'M',
@@ -116,6 +150,7 @@ final dummyProducts = [
     discount: null,
     isNew: true,
     isBestSeller: false,
+    date: DateTime(2023, 12, 30),
   ),
   Product(
     id: 'p7_crop_top',
@@ -125,7 +160,12 @@ final dummyProducts = [
     price: 450,
     brand: 'Stradivarius',
     sizes: ['XS', 'S', 'M'],
-    colors: [Color(0xffFDDFCD), Color(0xff8C4117), Color(0xff292D32), Colors.white],
+    colors: [
+      Color(0xffFDDFCD),
+      Color(0xff8C4117),
+      Color(0xff292D32),
+      Colors.white
+    ],
     description: 'Trendy summer crop top with tie detail',
     fabric: 'Cotton',
     model: 'S',
@@ -135,6 +175,7 @@ final dummyProducts = [
     discount: 30.0,
     isNew: true,
     isBestSeller: true,
+    date: DateTime(2023, 11, 15),
   ),
   Product(
     id: 'p8_wrap_dress',
@@ -144,7 +185,12 @@ final dummyProducts = [
     price: 1600,
     brand: 'Mango',
     sizes: ['S', 'M', 'L', 'XL'],
-    colors: [Color(0xffFDDFCD), Color(0xff8C4117), Color(0xff292D32), Colors.white],
+    colors: [
+      Color(0xffFDDFCD),
+      Color(0xff8C4117),
+      Color(0xff292D32),
+      Colors.white
+    ],
     description: 'Beautiful wrap dress with floral pattern',
     fabric: 'Viscose',
     model: 'L',
@@ -154,6 +200,7 @@ final dummyProducts = [
     discount: null,
     isNew: false,
     isBestSeller: true,
+    date: DateTime(2024, 1, 12),
   ),
   Product(
     id: 'p9_wide_pants',
@@ -163,7 +210,12 @@ final dummyProducts = [
     price: 950,
     brand: 'H&M',
     sizes: ['XS', 'S', 'M', 'L'],
-    colors: [Color(0xffFDDFCD), Color(0xff8C4117), Color(0xff292D32), Colors.white],
+    colors: [
+      Color(0xffFDDFCD),
+      Color(0xff8C4117),
+      Color(0xff292D32),
+      Colors.white
+    ],
     description: 'Comfortable wide leg pants perfect for office wear',
     fabric: 'Polyester Blend',
     model: 'M',
@@ -173,6 +225,7 @@ final dummyProducts = [
     discount: 10.0,
     isNew: false,
     isBestSeller: false,
+    date: DateTime(2023, 12, 3),
   ),
   Product(
     id: 'p10_peplum_top',
@@ -182,7 +235,12 @@ final dummyProducts = [
     price: 780,
     brand: 'ZARA',
     sizes: ['S', 'M', 'L'],
-    colors: [Color(0xffFDDFCD), Color(0xff8C4117), Color(0xff292D32), Colors.white],
+    colors: [
+      Color(0xffFDDFCD),
+      Color(0xff8C4117),
+      Color(0xff292D32),
+      Colors.white
+    ],
     description: 'Elegant peplum blouse with ruffle details',
     fabric: 'Polyester',
     model: 'M',
@@ -192,5 +250,6 @@ final dummyProducts = [
     discount: null,
     isNew: true,
     isBestSeller: false,
+    date: DateTime(2024, 1, 25),
   ),
 ];
