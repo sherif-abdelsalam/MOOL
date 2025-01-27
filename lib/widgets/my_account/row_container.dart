@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
 class RowContainer extends StatelessWidget {
-  const RowContainer({required this.icon, required this.text, super.key});
+  const RowContainer(
+      {required this.icon, required this.text, this.trailing, super.key});
 
   final Widget icon;
   final String text;
+  final Widget? trailing;
 
   @override
   Widget build(BuildContext context) {

@@ -129,6 +129,9 @@ flutter:
     - images/myaccount/message-text.svg
     - images/myaccount/user-square.svg
     - images/myaccount/box.svg
+    - images/master_card.svg
+    - images/visa.svg
+    - images/pay_mob.svg
 
 
 

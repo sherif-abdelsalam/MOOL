@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mool/models/shipping_address.dart';
 import 'package:mool/providers/shipping_addresses.dart';
+import 'package:mool/screens/checkout.dart';
+import 'package:mool/utils/button.dart';
 import 'package:mool/widgets/checkout/add_new_address.dart';
 
 class Shipping extends ConsumerStatefulWidget {
@@ -17,7 +19,6 @@ class _ShippingState extends ConsumerState<Shipping> {
     setState(() {
       addNewAddress = v;
     });
-    print("new address state, ${addNewAddress}");
   }
 
   @override
@@ -31,7 +32,7 @@ class _ShippingState extends ConsumerState<Shipping> {
     if (shipAddress.isNotEmpty) {
       shippingContent = Column(
         children: [
-          for (final sh in shipAddress) buildShippingAddressCard(sh: sh)
+          for (final sh in shipAddress) buildShippingAddressCard(sh: sh),
         ],
       );
     }
@@ -46,7 +47,7 @@ class _ShippingState extends ConsumerState<Shipping> {
               child: Text(
                 "Enter your shipping address",
                 style: TextStyle(
-                  fontSize: 18,
+                  fontSize: 16,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -93,6 +94,19 @@ class _ShippingState extends ConsumerState<Shipping> {
                       ),
                     ],
                   ),
+            SizedBox(height: 120),
+            shipAddress.isNotEmpty
+                ? Button(
+                    btnText: "Confirm and continue",
+                    onTapBtn: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (ctx) => CheckoutScreen(currentStep: 2),
+                        ),
+                      );
+                    },
+                  )
+                : SizedBox.shrink(),
           ],
         ),
       ),
@@ -129,7 +143,7 @@ class _ShippingState extends ConsumerState<Shipping> {
                   ),
                 ),
                 GestureDetector(
-                  onTap: (){},
+                  onTap: () {},
                   child: Text(
                     'Edit',
                     style: TextStyle(
