@@ -5,7 +5,7 @@ import 'package:mool/models/review.dart';
 class ReviewsProvider extends StateNotifier<List<Review>> {
   ReviewsProvider() : super(dummyReviews);
   void addReview(Review review) {
-    state = [...state, review]; // Create new list with added review
+    state = [...state, review]; //
   }
 }
 
