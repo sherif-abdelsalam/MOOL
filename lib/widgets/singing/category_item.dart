@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:mool/models/category.dart';
 
 class CategoryGridItem extends StatelessWidget {
-  const CategoryGridItem({super.key, required this.category});
+  const CategoryGridItem(
+      {super.key, required this.category, required this.onSelectCategory});
   final Category category;
+  final void Function() onSelectCategory;
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +16,8 @@ class CategoryGridItem extends StatelessWidget {
       clipBehavior: Clip.hardEdge,
       elevation: 4,
       child: InkWell(
-        onTap: () {},
+        onTap: onSelectCategory,
+        splashColor: Theme.of(context).colorScheme.primary,
         child: Stack(
           children: [
             Image.asset(category.imageUrl),

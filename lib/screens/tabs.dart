@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:mool/screens/cart.dart';
 import 'package:mool/screens/categories.dart';
 import 'package:mool/screens/home.dart';
+import 'package:mool/screens/my_account.dart';
+import 'package:mool/screens/my_list.dart';
 // Import other screens here
 
 class TabsScreen extends StatefulWidget {
@@ -17,7 +20,10 @@ class _TabsScreenState extends State<TabsScreen> {
 
   final List<Widget> _screens = [
     Home(),
-    Categories()
+    Categories(),
+    MyList(),
+    CartScreen(),
+    MyAccount(),
   ];
 
   void _selectScreen(int index) {
@@ -31,7 +37,7 @@ class _TabsScreenState extends State<TabsScreen> {
     return Scaffold(
       body: _screens[_activeScreenIndex],
       bottomNavigationBar: Container(
-        margin: EdgeInsets.only(bottom: 16, left: 16,right: 16, top: 4),
+        margin: EdgeInsets.only(bottom: 16, left: 16, right: 16, top: 4),
         decoration: BoxDecoration(
           color: Color(0xff292D32),
           borderRadius: BorderRadius.circular(20),

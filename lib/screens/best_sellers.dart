@@ -28,7 +28,7 @@ class BestSellersScreen extends StatelessWidget {
           ProductCard(
             product: p,
             identifierBestOrNew: 'new',
-          )
+          ),
       ],
     );
   }

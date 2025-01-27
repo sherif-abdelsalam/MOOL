@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mool/data/dummy_reviews.dart';
 import 'package:mool/models/review.dart';
 import 'package:mool/providers/reviews_provider.dart';
+import 'package:mool/utils/button.dart';
 import 'package:mool/widgets/reuse/custom_scaffold_header.dart';
 
 class WriteReviewScreen extends ConsumerStatefulWidget {
@@ -35,7 +36,7 @@ class _WriteReviewScreenState extends ConsumerState<WriteReviewScreen> {
       date: DateTime.now(),
     );
 
-    ref.read(reviewsProvider.notifier).addReview(newRev);
+    ref.watch(reviewsProvider.notifier).addReview(newRev);
     Navigator.of(context).pop();
   }
 
@@ -75,12 +76,15 @@ class _WriteReviewScreenState extends ConsumerState<WriteReviewScreen> {
                 padding: EdgeInsets.only(top: 32, bottom: 12, left: 16),
                 child: Text(
                   "Write a review",
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800),
                 )),
             _comment(),
-            ElevatedButton(
-              onPressed: _saveReview,
-              child: Text('Submit Review'),
+            SizedBox(
+              width: double.infinity,
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Button(btnText: "Submit review", onTapBtn: _saveReview),
+              ),
             ),
           ],
         ),

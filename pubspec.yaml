@@ -119,6 +119,18 @@ flutter:
     - images/notify.png
     - images/elegant_blazer.png
     - images/user.svg
+    - images/myaccount/global.svg
+    - images/myaccount/heart.svg
+    - images/myaccount/information.svg
+    - images/myaccount/language-square.svg
+    - images/myaccount/location.svg
+    - images/myaccount/lock.svg
+    - images/myaccount/logout.svg
+    - images/myaccount/message-text.svg
+    - images/myaccount/user-square.svg
+    - images/myaccount/box.svg
+
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

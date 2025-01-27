@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mool/models/category.dart';
 import 'package:mool/models/collection_item.dart';
-import 'package:mool/models/product.dart';
 
 final categories = [
   Category(

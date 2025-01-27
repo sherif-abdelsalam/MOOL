@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mool/data/dummy_categories.dart';
+import 'package:mool/utils/select_category.dart';
 
 class SliderCategory extends StatelessWidget {
   const SliderCategory({super.key});
@@ -17,27 +18,32 @@ class SliderCategory extends StatelessWidget {
             final category = categories[index];
             return Padding(
               padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 5),
-              child: Column(
-                children: [
-                  CircleAvatar(
-                    radius: 26,
-                    backgroundImage: AssetImage(category.imageUrl),
-                  ),
-                  SizedBox(height: 4),
-                  Text(
-                    category.name,
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500,
+              child: InkWell(
+                onTap: () {
+                  selectCategory(context, category);
+                },
+                splashColor: Theme.of(context).colorScheme.primary,
+                child: Column(
+                  children: [
+                    CircleAvatar(
+                      radius: 26,
+                      backgroundImage: AssetImage(category.imageUrl),
                     ),
-                  ),
-                ],
+                    SizedBox(height: 4),
+                    Text(
+                      category.name,
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             );
           },
         ),
       ),
     );
-  
   }
 }

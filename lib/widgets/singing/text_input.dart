@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mool/widgets/singing/input_filed_deocration.dart';
 
 class TextInput extends StatelessWidget {
-  const TextInput(
+  const   TextInput(
       {super.key, required this.labelText, required this.onSaveInput});
   final String labelText;
   final void Function(String input) onSaveInput;

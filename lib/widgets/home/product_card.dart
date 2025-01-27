@@ -19,10 +19,13 @@ class ProductCard extends ConsumerWidget {
     final isFavorite = favoriteProducts.contains(product);
 
     void toggleFavoriteProduct() {
+      var addMessage = "Product added to favorites 🤩";
+      var removeMessage = "Product is no longer exist in favorites 😔";
+
       final isAdded = ref
           .read(favoriteProductProvider.notifier)
           .toggleMealNotifier(product);
-      showSnackBar(context, isAdded);
+      showSnackBar(context, isAdded, addMessage, removeMessage);
     }
 
     return InkWell(
