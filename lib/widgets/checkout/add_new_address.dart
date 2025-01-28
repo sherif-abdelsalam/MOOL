@@ -19,17 +19,16 @@ class _AddNewAddressState extends ConsumerState<AddNewAddress> {
   final _formKey = GlobalKey<FormState>();
   final _address = ShippingAddress();
   Country? selectedCountry;
+  void _saveForm() {
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+      ref.watch(addressesProvider.notifier).addAddress(_address);
+      widget.onConfirmAddress();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    void _saveForm() {
-      if (_formKey.currentState!.validate()) {
-        _formKey.currentState!.save();
-        ref.watch(addressesProvider.notifier).addAddress(_address);
-        widget.onConfirmAddress();
-      }
-    }
-
     return Column(
       mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -131,6 +130,7 @@ class _AddNewAddressState extends ConsumerState<AddNewAddress> {
                     Expanded(
                       child: InputFiledDecoration(
                         labelText: 'Phone Number',
+                        
                         onSaveInput: (value) {
                           if (selectedCountry != null) {
                             _address.phoneNumber =
@@ -217,8 +217,7 @@ class _AddNewAddressState extends ConsumerState<AddNewAddress> {
             ),
           ),
         ),
-        Button(
-            btnText: "Confirm and continue", onTapBtn: _saveForm)
+        Button(btnText: "Confirm and continue", onTapBtn: _saveForm)
       ],
     );
   }
