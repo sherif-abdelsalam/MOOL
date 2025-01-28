@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mool/screens/cart.dart';
 import 'package:mool/screens/categories.dart';
+import 'package:mool/screens/discover.dart';
 import 'package:mool/screens/home.dart';
 import 'package:mool/screens/my_account.dart';
 import 'package:mool/screens/my_list.dart';
@@ -21,7 +22,7 @@ class _TabsScreenState extends State<TabsScreen> {
   final List<Widget> _screens = [
     Home(),
     Categories(),
-    MyList(),
+    Discover(),
     CartScreen(),
     MyAccount(),
   ];
