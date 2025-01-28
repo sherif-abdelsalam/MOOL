@@ -46,6 +46,8 @@ dependencies:
   flutter_launcher_icons: ^0.14.3
   intl: ^0.20.2
   flutter_riverpod: ^2.6.1
+  # reels_viewer: ^2.0.0
+  # video_player: ^2.9.2
 
 flutter_icons:
   android: true
@@ -76,65 +78,8 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - images/mool_back.png
-    - images/mool_logo.png
-    - images/welcome.png
-    - images/arrow-square-left.png
-    - images/arrow-square-left.svg
-    - images/sign_image.jpg
-    - images/signup_background.png
-    - images/register_back.png
-    - images/signin_back.png
-    - images/google.png
-    - images/apple.png
-    - images/facebook.png
-    - images/otp.png
-    - images/otp.svg
-    - images/tops.png
-    - images/bottoms.png
-    - images/dresses.png
-    - images/search-normal.svg
-    - images/flash_sale.png
-    - images/view_all.png
-    - images/tshirts.png
-    - images/sale.png
-    - images/nightwear.png
-    - images/notification.svg
-    - images/truck-fast.svg
-    - images/collection_1.png
-    - images/collection_2.png
-    - images/accessories.png
-    - images/vacation_wear.png
-    - images/h_m.png
-    - images/loft.png
-    - images/zara.png
-    - images/nike.png
-    - images/chanel.png
-    - images/levi_s.png
-    - images/red_dress.png
-    - images/yellow_dress.png
-    - images/pink_dress.png
-    - images/gray_top.png
-    - images/night_wear.png
-    - images/notify.png
-    - images/elegant_blazer.png
-    - images/user.svg
-    - images/myaccount/global.svg
-    - images/myaccount/heart.svg
-    - images/myaccount/information.svg
-    - images/myaccount/language-square.svg
-    - images/myaccount/location.svg
-    - images/myaccount/lock.svg
-    - images/myaccount/logout.svg
-    - images/myaccount/message-text.svg
-    - images/myaccount/user-square.svg
-    - images/myaccount/box.svg
-    - images/master_card.svg
-    - images/visa.svg
-    - images/pay_mob.svg
-    - images/pay_mob.png
-    - images/pay_mobile.svg
-    - images/done_trans.gif
+  - images/
+  - videos/
 
 
 
