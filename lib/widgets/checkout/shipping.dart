@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mool/models/shipping_address.dart';
 import 'package:mool/providers/shipping_addresses.dart';
 import 'package:mool/screens/checkout.dart';
@@ -26,7 +27,30 @@ class _ShippingState extends ConsumerState<Shipping> {
   Widget build(BuildContext context) {
     final shipAddress = ref.watch(addressesProvider);
     Widget shippingContent = Center(
-      child: Text("No addresses founded!"),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SvgPicture.asset("images/no_address.svg"),
+          SizedBox(height: 24),
+          Text(
+            "No Address Yet",
+            style: TextStyle(
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          SizedBox(height: 16),
+          Text(
+            "Please add your address for your better experience",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Color(0xff9E9E9E),
+            ),
+          ),
+          SizedBox(height: 20),
+        ],
+      ),
     );
 
     if (shipAddress.isNotEmpty) {
@@ -54,6 +78,7 @@ class _ShippingState extends ConsumerState<Shipping> {
             ),
             addNewAddress
                 ? AddNewAddress(
+                    btnContent: "Confirm and continue",
                     onConfirmAddress: () {
                       setState(() {
                         toggleAddNewAddress(false);
