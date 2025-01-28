@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mool/providers/cart_product_provider.dart';
 import 'package:mool/providers/checkout_provider.dart';
 import 'package:mool/providers/payment_provider.dart';
 import 'package:mool/providers/shipping_addresses.dart';
@@ -22,6 +23,9 @@ class TransactionReview extends ConsumerWidget {
       ref
           .watch(checkoutProductsProvider.notifier)
           .approveCheckout(checkout[0].id, DateTime.now());
+
+      ref.watch(cartProductsProvider.notifier).restCart();
+
       Navigator.of(context).push(
         MaterialPageRoute(
           builder: (ctx) => CheckoutScreen(
