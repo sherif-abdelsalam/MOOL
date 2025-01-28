@@ -133,7 +133,9 @@ class _ProductDetailsState extends ConsumerState<ProductDetails> {
     final isFavorite = favoriteProducts.contains(widget.product);
 
     void saveProduct() {
+      final cart = ref.watch(cartProductsProvider);
       CartProduct cartProduct = CartProduct(
+        id: (cart.length+1).toString(),
           product: widget.product, color: selectedColor, size: selectedSize);
       ref.watch(cartProductsProvider.notifier).addCartProduct(cartProduct);
 

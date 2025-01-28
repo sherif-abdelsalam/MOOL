@@ -9,24 +9,19 @@ class Payment extends StatelessWidget {
     return Expanded(
       child: SingleChildScrollView(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Text(
-                    "Choose Payment Method",
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Text(
+                "Choose Payment Method",
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
                 ),
-                PaymentMethods(),
-              ],
+              ),
             ),
+            PaymentMethods(),
           ],
         ),
       ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mool/models/cart_product.dart';
 import 'package:mool/providers/cart_product_provider.dart';
+import 'package:mool/widgets/product_details/subtitles_style.dart';
 
 class CartProductGridItem extends ConsumerStatefulWidget {
   const CartProductGridItem({
@@ -21,17 +22,16 @@ class _CartProductState extends ConsumerState<CartProductGridItem> {
   void setMinus() {
     setState(() {
       if (quantity > 1) {
-        --quantity;
-        widget.onChange(
-            ((quantity - 1) * widget.cartProd.product.price).toDouble());
+        quantity--;
+        widget.onChange(-widget.cartProd.product.price);
       }
     });
   }
 
   void setPlus() {
     setState(() {
-      widget.onChange((quantity * widget.cartProd.product.price).toDouble());
       quantity++;
+      widget.onChange(widget.cartProd.product.price);
     });
   }
 
@@ -51,10 +51,31 @@ class _CartProductState extends ConsumerState<CartProductGridItem> {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            Image.asset(
-              prod.product.imageUrl,
-              height: 140,
-              fit: BoxFit.cover,
+            Stack(
+              children: [
+                Image.asset(
+                  prod.product.imageUrl,
+                  height: 140,
+                  fit: BoxFit.cover,
+                ),
+                Positioned(
+                  top: 20,
+                  child: prod.product.discount != null
+                      ? Container(
+                          padding: EdgeInsets.symmetric(horizontal: 8),
+                          color: Colors.red,
+                          height: 30,
+                          child: Center(
+                              child: Text(
+                            '${prod.product.discount!.toInt()}%',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold),
+                          )))
+                      : SizedBox.shrink(),
+                ),
+              ],
             ),
             Expanded(
               child: Padding(
@@ -64,13 +85,11 @@ class _CartProductState extends ConsumerState<CartProductGridItem> {
                   children: [
                     Text(
                       prod.product.title,
-                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                     ),
                     SizedBox(height: 4),
-                    Text(
-                      '${prod.product.price} SAR',
-                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                    ),
+                    buildPriceWidget(prod),
                     SizedBox(height: 16),
                     Row(
                       children: [
@@ -165,6 +184,45 @@ class _CartProductState extends ConsumerState<CartProductGridItem> {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+Widget buildPriceWidget(CartProduct prod) {
+  // Check if there's a discount
+  if (prod.product.discount != null) {
+    // Calculate discounted price
+    final originalPrice = prod.product.price.toInt();
+    final discountPercentage = prod.product.discount!;
+    final discountedPrice =
+        (originalPrice * (1 - (discountPercentage / 100))).toInt();
+
+    return Row(
+      children: [
+        // Original price (struck through)
+        Text(
+          originalPrice.toString(),
+          style: const TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.bold,
+            decoration: TextDecoration.lineThrough,
+          ),
+        ),
+        const SizedBox(width: 8),
+        // Discounted price
+        SubtitlesStyle(
+          title: '$discountedPrice SAR',
+        ),
+      ],
+    );
+  } else {
+    // Regular price without discount
+    return Text(
+      '${prod.product.price} SAR',
+      style: const TextStyle(
+        fontSize: 14,
+        fontWeight: FontWeight.bold,
       ),
     );
   }

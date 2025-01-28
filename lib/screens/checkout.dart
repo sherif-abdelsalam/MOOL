@@ -1,19 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:mool/screens/Payment.dart';
+import 'package:mool/screens/done_trans.dart';
+import 'package:mool/screens/transaction_review.dart';
 import 'package:mool/widgets/checkout/shipping.dart';
 import 'package:mool/widgets/reuse/custom_scaffold_header.dart';
 
 class CheckoutScreen extends StatelessWidget {
-  const CheckoutScreen({super.key, required this.currentStep});
+  const CheckoutScreen(
+      {super.key, required this.currentStep, this.stepsBarColor});
   final int currentStep;
-
+  final Color? stepsBarColor;
   @override
   Widget build(BuildContext context) {
     Widget mainContent = Shipping();
-    if (currentStep == 2) mainContent = Payment();
+    if (currentStep == 2) {
+      mainContent = Payment();
+    } else if (currentStep == 3) {
+      mainContent = TransactionReview();
+    } else if (currentStep == 4) {
+      mainContent = DoneTrans();
+    }
     Widget headerBar = Container(
       width: double.infinity,
-      color: Colors.white,
+      color: stepsBarColor != null ? stepsBarColor! : Colors.white,
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Row(
@@ -58,7 +67,11 @@ class CheckoutScreen extends StatelessWidget {
           ),
           child: Center(
             child: isCompleted
-                ? Icon(Icons.check_rounded, size: 16,color: Colors.white,)
+                ? Icon(
+                    Icons.check_rounded,
+                    size: 16,
+                    color: Colors.white,
+                  )
                 : Text(
                     stepNumber.toString(),
                     style: TextStyle(

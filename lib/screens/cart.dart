@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mool/models/checkout_products.dart';
 import 'package:mool/providers/cart_product_provider.dart';
+import 'package:mool/providers/checkout_provider.dart';
 import 'package:mool/screens/checkout.dart';
 import 'package:mool/utils/button.dart';
 import 'package:mool/widgets/cart/cart_product.dart';
@@ -15,14 +17,37 @@ class CartScreen extends ConsumerStatefulWidget {
 
 class _CartScreenState extends ConsumerState<CartScreen> {
   double _subtotal = 0;
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final cartProducts = ref.watch(cartProductsProvider);
+      setState(() {
+        for (final item in cartProducts) {
+          double tmp = item.product.price;
+          if (item.product.discount != null) {
+            tmp = tmp * (1 - (item.product.discount! / 100));
+          }
+          _subtotal += tmp;
+        }
+      });
+    });
+  }
 
   void _setSubTotal(double value) {
     setState(() {
-      // _subtotal+=value;
+      _subtotal += value;
     });
   }
 
   void navigateToCheckout() {
+    final cartProducts = ref.watch(cartProductsProvider);
+
+    CheckoutProducts check = CheckoutProducts(
+        checkoutProducts: cartProducts,
+        subTotal: _subtotal,
+        status: Status.pending);
+    ref.watch(checkoutProductsProvider.notifier).addCheckoutProducts(check);
     Navigator.of(context).push(
         MaterialPageRoute(builder: (ctx) => CheckoutScreen(currentStep: 1)));
   }
@@ -33,9 +58,6 @@ class _CartScreenState extends ConsumerState<CartScreen> {
     Widget fallbackContent = Center(
       child: Text("You cart is Empty!"),
     );
-    if (cartProducts.isNotEmpty) {
-      _subtotal = cartProducts.fold(0, (sum, item) => sum + item.product.price);
-    }
     return CustomScaffoldHeader(
       title: "Cart",
       bodyContent: cartProducts.isEmpty

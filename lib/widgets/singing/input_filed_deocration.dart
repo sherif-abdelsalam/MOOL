@@ -20,15 +20,15 @@ class InputFiledDecoration extends StatelessWidget {
       style: TextStyle(fontSize: 14),
       keyboardType: labelText == "Email"
           ? TextInputType.emailAddress
-          : TextInputType.text,
+          : labelText == "Phone Number"
+              ? TextInputType.number
+              : TextInputType.text,
       decoration: InputDecoration(
         labelText: labelText,
         labelStyle: TextStyle(fontSize: 14, color: Colors.black54),
         filled: true,
         fillColor: Colors.white,
-        contentPadding: EdgeInsets.symmetric(
-            vertical: 8, horizontal: 12),
-
+        contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
           borderSide: const BorderSide(

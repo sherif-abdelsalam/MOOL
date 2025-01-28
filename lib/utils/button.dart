@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 
 class Button extends StatelessWidget {
-  const Button({super.key, required this.btnText, required this.onTapBtn});
+  const Button(
+      {super.key, required this.btnText, required this.onTapBtn, this.padding});
 
   final String btnText;
   final void Function() onTapBtn;
+  final double? padding;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(16),
+      padding: EdgeInsets.symmetric(
+          horizontal: padding != null ? padding! : 16, vertical: 16),
       width: double.infinity,
       color: Colors.white,
       child: ElevatedButton(

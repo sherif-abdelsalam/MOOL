@@ -5,12 +5,7 @@ class PaymentProvider extends StateNotifier<List<PaymentModel>> {
   PaymentProvider() : super([]);
 
   void addPaymentMethod(PaymentModel payment) {
-    bool isExisted = state.contains(payment);
-    if (isExisted) {
-      return;
-    } else {
-      state = [...state, payment];
-    }
+    state = [...state, payment];
   }
 
   void removePaymentMethod(PaymentModel payment) {
