@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl_phone_field/countries.dart';
+import 'package:mool/screens/your_orders.dart';
 import 'package:mool/widgets/my_account/row_container.dart';
 import 'package:mool/widgets/reuse/custom_scaffold_header.dart';
 
@@ -14,6 +15,9 @@ class MyAccount extends StatefulWidget {
 class _MyAccountState extends State<MyAccount> {
   Country? selectedCountry;
   bool showDropDown = false;
+  void _navigator(Widget screen) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (ctx) => screen));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,10 +32,17 @@ class _MyAccountState extends State<MyAccount> {
                   icon: SvgPicture.asset("images/myaccount/user-square.svg"),
                   text: "Your Account"),
               const SizedBox(height: 8),
-              RowContainer(
-                  icon: SvgPicture.asset("images/myaccount/box.svg"),
-                  text: "Your Orders"),
+
+              GestureDetector(
+                onTap: () {
+                  _navigator(YourOrdersScreen());
+                },
+                child: RowContainer(
+                    icon: SvgPicture.asset("images/myaccount/box.svg"),
+                    text: "Your Orders"),
+              ),
               const SizedBox(height: 8),
+
               RowContainer(
                   icon: SvgPicture.asset("images/myaccount/heart.svg"),
                   text: "My Favorite"),
@@ -45,7 +56,8 @@ class _MyAccountState extends State<MyAccount> {
                   text: "Change Password"),
               const SizedBox(height: 8),
               RowContainer(
-                  icon: SvgPicture.asset("images/myaccount/language-square.svg"),
+                  icon:
+                      SvgPicture.asset("images/myaccount/language-square.svg"),
                   text: "Language"),
               const SizedBox(height: 8),
               GestureDetector(
@@ -113,5 +125,4 @@ class _MyAccountState extends State<MyAccount> {
   //     ),
   //   );
   // }
-
 }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mool/models/checkout_products.dart';
 import 'package:mool/providers/checkout_provider.dart';
 import 'package:mool/providers/payment_provider.dart';
 import 'package:mool/providers/shipping_addresses.dart';

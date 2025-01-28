@@ -98,12 +98,15 @@ class _CartProductState extends ConsumerState<CartProductGridItem> {
                           style:
                               TextStyle(fontSize: 12, color: Color(0xff616161)),
                         ),
-                        Text(
-                          prod.product.brand,
-                          style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xff33CCCC)),
+                        Flexible(
+                          child: Text(
+                            prod.product.brand,
+                            style: TextStyle(
+                                fontSize: 12,
+                                overflow: TextOverflow.ellipsis,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xff33CCCC)),
+                          ),
                         ),
                       ],
                     ),
