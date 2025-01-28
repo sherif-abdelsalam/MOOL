@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl_phone_field/countries.dart';
+import 'package:mool/screens/address_book.dart';
+import 'package:mool/screens/my_list.dart';
 import 'package:mool/screens/your_orders.dart';
 import 'package:mool/widgets/my_account/row_container.dart';
 import 'package:mool/widgets/reuse/custom_scaffold_header.dart';
@@ -43,13 +45,23 @@ class _MyAccountState extends State<MyAccount> {
               ),
               const SizedBox(height: 8),
 
-              RowContainer(
-                  icon: SvgPicture.asset("images/myaccount/heart.svg"),
-                  text: "My Favorite"),
+              GestureDetector(
+                onTap: () {
+                  _navigator(MyList());
+                },
+                child: RowContainer(
+                    icon: SvgPicture.asset("images/myaccount/heart.svg"),
+                    text: "My Favorite"),
+              ),
               const SizedBox(height: 8),
-              RowContainer(
-                  icon: SvgPicture.asset("images/myaccount/location.svg"),
-                  text: "Address Book"),
+              GestureDetector(
+                onTap: () {
+                  _navigator(AddressBook());
+                },
+                child: RowContainer(
+                    icon: SvgPicture.asset("images/myaccount/location.svg"),
+                    text: "Address Book"),
+              ),
               const SizedBox(height: 8),
               RowContainer(
                   icon: SvgPicture.asset("images/myaccount/lock.svg"),
