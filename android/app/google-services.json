@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "856970872407",
+    "project_id": "molo-115a3",
+    "storage_bucket": "molo-115a3.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:856970872407:android:ddf21cf6c028c0614a0512",
+        "android_client_info": {
+          "package_name": "com.example.mool"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCzzjpv1JqoMo3FtY4_NXkrWslTcU10HJs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
