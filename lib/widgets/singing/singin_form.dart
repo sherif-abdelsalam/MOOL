@@ -1,8 +1,10 @@
-// import 'package:csc_picker/csc_picker.dart';
+import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mool/screens/forget_pw.dart';
-import 'package:mool/screens/signin.dart';
 import 'package:mool/screens/signup.dart';
+import 'package:mool/screens/tabs.dart';
+import 'package:mool/utils/show_alert.dart';
 import 'package:mool/widgets/singing/email_input.dart';
 import 'package:mool/widgets/singing/password.dart';
 import 'package:mool/widgets/singing/social_sigin.dart';
@@ -23,11 +25,45 @@ class _SigninFormState extends State<SigninForm> {
     Navigator.of(context).push(MaterialPageRoute(builder: (ctx) => ForgetPW()));
   }
 
-  void _saveItem() {
+  void _loginUser() async {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-      print(_enteredEmail);
-      print(_enteredPassword);
+
+      try {
+        final credential =
+            await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: _enteredEmail,
+          password: _enteredPassword,
+        );
+        if (credential.user!.emailVerified) {
+          Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (ctx) => TabsScreen()));
+        } else {
+          FirebaseAuth.instance.currentUser!.sendEmailVerification();
+
+          showAwesomeDialog(
+            context,
+            "Verify your email first, We have sent a verification link to your email,",
+            DialogType.warning,
+          );
+        }
+      } on FirebaseAuthException catch (e) {
+        String errorMessage;
+        print("************************************");
+        print(e.code);
+        print(e.email);
+        print(e.message);
+        print("************************************");
+
+        if (e.code == 'user-not-found') {
+          errorMessage = 'No user found for that email.';
+        } else if (e.code == 'wrong-password') {
+          errorMessage = 'Wrong password provided for that user.';
+        } else {
+          errorMessage = 'Your Email or Password is incorrect! try again!.';
+        }
+        showAwesomeDialog(context, errorMessage, DialogType.error);
+      }
     }
   }
 
@@ -66,7 +102,7 @@ class _SigninFormState extends State<SigninForm> {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: _saveItem,
+                  onPressed: _loginUser,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.black,
                     padding: EdgeInsets.symmetric(horizontal: 52, vertical: 12),

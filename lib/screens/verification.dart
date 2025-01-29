@@ -56,7 +56,6 @@ class _VerificationState extends State<Verification> {
   }
 
   void _submitOTP() {
-    // Handle OTP submission
     print("OTP Submitted: ${_controllers.map((c) => c.text).join()}");
   }
 

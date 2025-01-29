@@ -21,8 +21,11 @@ import 'package:mool/widgets/product_details/subtitles_style.dart';
 import 'package:mool/widgets/reuse/custom_scaffold_header.dart';
 
 class ProductDetails extends ConsumerStatefulWidget {
-  const ProductDetails(
-      {super.key, required this.product, required this.identifier});
+  const ProductDetails({
+    super.key,
+    required this.product,
+    required this.identifier,
+  });
   final Product product;
   final String identifier;
 
@@ -135,12 +138,19 @@ class _ProductDetailsState extends ConsumerState<ProductDetails> {
     void saveProduct() {
       final cart = ref.watch(cartProductsProvider);
       CartProduct cartProduct = CartProduct(
-        id: (cart.length+1).toString(),
-          product: widget.product, color: selectedColor, size: selectedSize);
+          id: (cart.length + 1).toString(),
+          product: widget.product,
+          color: selectedColor,
+          size: selectedSize);
       ref.watch(cartProductsProvider.notifier).addCartProduct(cartProduct);
 
-      Navigator.of(context)
-          .push(MaterialPageRoute(builder: (ctx) => CartScreen()));
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (ctx) => CartScreen(
+            isCartToBack: true,
+          ),
+        ),
+      );
     }
 
     return CustomScaffoldHeader(

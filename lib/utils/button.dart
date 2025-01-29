@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 
 class Button extends StatelessWidget {
-  const Button(
-      {super.key, required this.btnText, required this.onTapBtn, this.padding});
+  const Button({
+    super.key,
+    required this.btnText,
+    required this.onTapBtn,
+    this.padding,
+    this.hasNotOutsideColor,
+  });
 
   final String btnText;
   final void Function() onTapBtn;
   final double? padding;
+  final bool? hasNotOutsideColor;
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +20,7 @@ class Button extends StatelessWidget {
       padding: EdgeInsets.symmetric(
           horizontal: padding != null ? padding! : 16, vertical: 16),
       width: double.infinity,
-      color: Colors.white,
+      color: hasNotOutsideColor != null ? null : Colors.white,
       child: ElevatedButton(
         onPressed: onTapBtn,
         style: ElevatedButton.styleFrom(

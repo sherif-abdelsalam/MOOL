@@ -9,8 +9,11 @@ import 'package:mool/widgets/cart/cart_product.dart';
 import 'package:mool/widgets/reuse/custom_scaffold_header.dart';
 
 class CartScreen extends ConsumerStatefulWidget {
-  const CartScreen({super.key});
-
+  const CartScreen({
+    super.key,
+    this.isCartToBack,
+  });
+  final bool? isCartToBack;
   @override
   ConsumerState<CartScreen> createState() => _CartScreenState();
 }
@@ -59,7 +62,9 @@ class _CartScreenState extends ConsumerState<CartScreen> {
       child: Text("You cart is Empty!"),
     );
     return CustomScaffoldHeader(
+      route: "tabs",
       title: "Cart",
+      isCartToBack: widget.isCartToBack,
       bodyContent: cartProducts.isEmpty
           ? fallbackContent
           : Column(

@@ -1,8 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+// import 'package:google_sign_in/google_sign_in.dart';
 import 'package:intl_phone_field/countries.dart';
 import 'package:mool/screens/address_book.dart';
 import 'package:mool/screens/my_list.dart';
+import 'package:mool/screens/your_account.dart';
 import 'package:mool/screens/your_orders.dart';
 import 'package:mool/widgets/my_account/row_container.dart';
 import 'package:mool/widgets/reuse/custom_scaffold_header.dart';
@@ -24,15 +27,21 @@ class _MyAccountState extends State<MyAccount> {
   @override
   Widget build(BuildContext context) {
     return CustomScaffoldHeader(
+      route: "tabs",
       title: "My account",
       bodyContent: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
           child: Column(
             children: [
-              RowContainer(
-                  icon: SvgPicture.asset("images/myaccount/user-square.svg"),
-                  text: "Your Account"),
+              GestureDetector(
+                onTap: () {
+                  _navigator(YourAccount());
+                },
+                child: RowContainer(
+                    icon: SvgPicture.asset("images/user-square.svg"),
+                    text: "Your Account"),
+              ),
               const SizedBox(height: 8),
 
               GestureDetector(
@@ -40,7 +49,7 @@ class _MyAccountState extends State<MyAccount> {
                   _navigator(YourOrdersScreen());
                 },
                 child: RowContainer(
-                    icon: SvgPicture.asset("images/myaccount/box.svg"),
+                    icon: SvgPicture.asset("images/box.svg"),
                     text: "Your Orders"),
               ),
               const SizedBox(height: 8),
@@ -50,7 +59,7 @@ class _MyAccountState extends State<MyAccount> {
                   _navigator(MyList());
                 },
                 child: RowContainer(
-                    icon: SvgPicture.asset("images/myaccount/heart.svg"),
+                    icon: SvgPicture.asset("images/heart.svg"),
                     text: "My Favorite"),
               ),
               const SizedBox(height: 8),
@@ -59,17 +68,16 @@ class _MyAccountState extends State<MyAccount> {
                   _navigator(AddressBook());
                 },
                 child: RowContainer(
-                    icon: SvgPicture.asset("images/myaccount/location.svg"),
+                    icon: SvgPicture.asset("images/location.svg"),
                     text: "Address Book"),
               ),
               const SizedBox(height: 8),
               RowContainer(
-                  icon: SvgPicture.asset("images/myaccount/lock.svg"),
+                  icon: SvgPicture.asset("images/lock.svg"),
                   text: "Change Password"),
               const SizedBox(height: 8),
               RowContainer(
-                  icon:
-                      SvgPicture.asset("images/myaccount/language-square.svg"),
+                  icon: SvgPicture.asset("images/language-square.svg"),
                   text: "Language"),
               const SizedBox(height: 8),
               GestureDetector(
@@ -79,24 +87,33 @@ class _MyAccountState extends State<MyAccount> {
                   });
                 },
                 child: RowContainer(
-                  icon: SvgPicture.asset("images/myaccount/global.svg"),
+                  icon: SvgPicture.asset("images/global.svg"),
                   text: "Country",
                 ),
               ),
               // if (showDropDown) _buildCountryDropdown(),
               const SizedBox(height: 8),
               RowContainer(
-                icon: SvgPicture.asset("images/myaccount/information.svg"),
+                icon: SvgPicture.asset("images/information.svg"),
                 text: "About Us",
               ),
               const SizedBox(height: 8),
               RowContainer(
-                  icon: SvgPicture.asset("images/myaccount/message-text.svg"),
+                  icon: SvgPicture.asset("images/message-text.svg"),
                   text: "Contact Us"),
               const SizedBox(height: 8),
-              RowContainer(
-                  icon: SvgPicture.asset("images/myaccount/logout.svg"),
-                  text: "Logout"),
+              GestureDetector(
+                onTap: () async {
+                  // GoogleSignIn googleSignIn = GoogleSignIn();
+                  // googleSignIn.disconnect();
+                  await FirebaseAuth.instance.signOut();
+                  Navigator.of(context)
+                      .pushNamedAndRemoveUntil("login", (route) => false);
+                },
+                child: RowContainer(
+                    icon: SvgPicture.asset("images/logout.svg"),
+                    text: "Logout"),
+              ),
               const SizedBox(height: 8),
             ],
           ),

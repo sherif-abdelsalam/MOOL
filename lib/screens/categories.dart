@@ -8,10 +8,10 @@ import 'package:mool/widgets/reuse/custom_scaffold_header.dart';
 class Categories extends StatelessWidget {
   const Categories({super.key});
 
-
   @override
   Widget build(BuildContext context) {
     return CustomScaffoldHeader(
+      route: "tabs",
       title: "Categories",
       trailing: GestureDetector(
         onTap: () {},

@@ -2,15 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:mool/icons/arrow_back_icon.dart';
 
 class CustomScaffoldHeader extends StatelessWidget {
-  const CustomScaffoldHeader(
-      {super.key,
-      required this.title,
-      required this.bodyContent,
-      this.trailing});
+  const CustomScaffoldHeader({
+    super.key,
+    required this.title,
+    required this.bodyContent,
+    this.trailing,
+    this.route,
+    this.isCartToBack,
+  });
 
   final Widget bodyContent;
   final String title;
   final Widget? trailing;
+  final String? route;
+  final bool? isCartToBack;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,7 +39,10 @@ class CustomScaffoldHeader extends StatelessWidget {
                 right: 16,
                 child: Row(
                   children: [
-                    ArrowBackIcon(),
+                    ArrowBackIcon(
+                      route: route,
+                      isCartToBack: isCartToBack,
+                    ),
                     Text(
                       title,
                       style: TextStyle(

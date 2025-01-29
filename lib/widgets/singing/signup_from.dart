@@ -1,8 +1,11 @@
 // import 'package:csc_picker/csc_picker.dart';
+import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:mool/screens/signin.dart';
-import 'package:mool/screens/tabs.dart';
+import 'package:mool/utils/show_alert.dart';
 import 'package:mool/widgets/singing/email_input.dart';
 import 'package:mool/widgets/singing/password.dart';
 import 'package:mool/widgets/singing/social_sigin.dart';
@@ -22,19 +25,53 @@ class _SignupFromState extends State<SignupFrom> {
   var _enteredEmail = '';
   var _enteredPhoneNumber;
   var _enteredPassword = '';
+  CollectionReference users = FirebaseFirestore.instance.collection('users');
+  Future<void> addUser() {
+    print("<<<<<<<<<<<<<<>>>>>>>>>>>>>>");
+    return users
+        .add({
+          'first_name': _enteredFirstName,
+          'last_name': _enteredLastName,
+          'email': _enteredEmail,
+          'phone_number': _enteredPhoneNumber.toString(),
+        })
+        .then((value) => print("===============>>>>User Added"))
+        .catchError(
+            (error) => print("==========>>>>>Failed to add user: $error"));
+  }
 
-  void _saveUser() {
-    Navigator.of(context)
-        .pushReplacement(MaterialPageRoute(builder: (ctx) => TabsScreen()));
+  void _saveUser() async {
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
 
-    // if (_formKey.currentState!.validate()) {
-    //   _formKey.currentState!.save();
-    //   print(_enteredFirstName);
-    //   print(_enteredLastName);
-    //   print(_enteredEmail);
-    //   print(_enteredPhoneNumber);
-    //   print(_enteredPassword);
-    // }
+      try {
+        final credential =
+            await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: _enteredEmail,
+          password: _enteredPassword,
+        );
+
+        FirebaseAuth.instance.currentUser!.sendEmailVerification();
+        await addUser();
+
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (ctx) => Signin()),
+        );
+      } on FirebaseAuthException catch (e) {
+        String errorMessage;
+        if (e.code == 'weak-password') {
+          errorMessage = "The password provided is too weak.";
+        } else if (e.code == 'email-already-in-use') {
+          errorMessage =
+              "The account already exists for that email! Try to Login";
+        } else {
+          errorMessage = "Inter valid credentials";
+        }
+        showAwesomeDialog(context, errorMessage, DialogType.warning);
+      } catch (e) {
+        print(e);
+      }
+    }
   }
 
   void saveFirstName(String fName) {
