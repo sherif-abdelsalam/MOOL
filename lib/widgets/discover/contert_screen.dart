@@ -98,21 +98,21 @@ class _ContentScreenState extends State<ContentScreen> {
                   ),
                 ),
                 Positioned(
-                  bottom: 110,
+                  bottom: 85,
                   right: 22,
-                  child: CircleAvatar(
-                    radius: 24,
-                    child: Column(
-                      children: [
-                        SvgPicture.asset("images/grid.svg"),
-                        SizedBox(height: 8),
-                        ProfileTextStyle(data: "Grid"),
-                      ],
-                    ),
+                  child: Column(
+                    children: [
+                      CircleAvatar(
+                        radius: 24,
+                        child: SvgPicture.asset("images/grid.svg"),
+                      ),
+                      SizedBox(height: 4),
+                      ProfileTextStyle(data: "Grid"),
+                    ],
                   ),
                 ),
                 Positioned(
-                  bottom: 200,
+                  bottom: 170,
                   right: 22,
                   child: Column(
                     children: [
@@ -120,7 +120,7 @@ class _ContentScreenState extends State<ContentScreen> {
                         radius: 24,
                         child: SvgPicture.asset("images/barcode.svg"),
                       ),
-                      SizedBox(height: 8),
+                      SizedBox(height: 4),
                       ProfileTextStyle(data: "Products"),
                     ],
                   ),

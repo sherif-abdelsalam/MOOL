@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:intl_phone_field/phone_number.dart';
 import 'package:mool/utils/button.dart';
 import 'package:mool/widgets/reuse/custom_scaffold_header.dart';
 import 'package:mool/widgets/singing/email_input.dart';
-import 'package:mool/widgets/singing/password.dart';
 import 'package:mool/widgets/singing/text_input.dart';
 
 class YourAccount extends StatefulWidget {
-  const YourAccount({super.key});
+  const YourAccount({super.key, required this.userData});
+
+  final Map<String, dynamic>? userData;
 
   @override
   State<YourAccount> createState() => _YourAccountState();
@@ -17,7 +19,6 @@ class _YourAccountState extends State<YourAccount> {
   var _enteredName = '';
   var _enteredEmail = '';
   var _enteredPhoneNumber = '';
-  var _enteredPassword = '';
 
   void saveName(String name) {
     _enteredName = name;
@@ -27,16 +28,36 @@ class _YourAccountState extends State<YourAccount> {
     _enteredEmail = email;
   }
 
-  void savePassword(String password) {
-    _enteredPassword = password;
-  }
-
   void savePhoneNumber(String phone) {
     _enteredPhoneNumber = phone;
   }
 
+  void updateProfile() {
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+      print(_enteredEmail);
+      print(_enteredPhoneNumber);
+      print(_enteredName);
+    }
+  }
+
+  @override
+  void initState() {
+    print("=====================================");
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+    TextStyle style = TextStyle(fontSize: 14, color: Color(0xff616161));
+    final userData = widget.userData;
+    Map<String, dynamic> phoneNumberMap = userData!['phone_number'];
+    PhoneNumber phoneNumber = PhoneNumber(
+      countryISOCode: phoneNumberMap['countryISOCode'],
+      countryCode: phoneNumberMap['countryCode'],
+      number: phoneNumberMap['number'],
+    );
+
     return CustomScaffoldHeader(
       title: "Your account",
       bodyContent: Container(
@@ -48,25 +69,42 @@ class _YourAccountState extends State<YourAccount> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("  Name"),
+                Text(
+                  "  Name",
+                  style: style,
+                ),
                 SizedBox(height: 8),
-                TextInput(labelText: "", onSaveInput: saveName),
+                TextInput(
+                  labelText: "",
+                  onSaveInput: saveName,
+                  initialValue: userData['first_name'],
+                ),
                 SizedBox(height: 16),
-                Text("  Email"),
+                Text(
+                  "  Email",
+                  style: style,
+                ),
                 SizedBox(height: 8),
-                EmailInput(labelText: "", onSaveInput: saveEmail),
+                EmailInput(
+                  labelText: "",
+                  onSaveInput: saveEmail,
+                  initialValue: userData['email'],
+                ),
                 SizedBox(height: 16),
-                Text("  Phone"),
+                Text(
+                  "  Phone",
+                  style: style,
+                ),
                 SizedBox(height: 8),
-                TextInput(labelText: "", onSaveInput: savePhoneNumber),
-                SizedBox(height: 16),
-                Text("  Password"),
-                SizedBox(height: 8),
-                Password(labelText: "", onSaveInput: savePassword),
+                TextInput(
+                  labelText: "",
+                  onSaveInput: savePhoneNumber,
+                  initialValue: phoneNumber.completeNumber
+                ),
                 SizedBox(height: 48),
                 Button(
                   btnText: "Update profile",
-                  onTapBtn: () {},
+                  onTapBtn: updateProfile,
                   hasNotOutsideColor: true,
                 ),
               ],
@@ -77,27 +115,3 @@ class _YourAccountState extends State<YourAccount> {
     );
   }
 }
-
-
-// Container(
-//       padding: EdgeInsets.symmetric(
-//           horizontal: padding != null ? padding! : 16, vertical: 16),
-//       width: double.infinity,
-//       color: hasNotOutsideColor != null ? null : Colors.white,
-//       child: ElevatedButton(
-//         onPressed: onTapBtn,
-//         style: ElevatedButton.styleFrom(
-//           elevation: 16,
-//           backgroundColor: Colors.black,
-//           padding: EdgeInsets.symmetric(horizontal: 52, vertical: 12),
-//           shape: RoundedRectangleBorder(
-//             borderRadius: BorderRadius.circular(16),
-//           ),
-//         ),
-//         child: Text(
-//           btnText,
-//           style: TextStyle(
-//               color: Colors.white, fontSize: 14, fontWeight: FontWeight.w800),
-//         ),
-//       ),
-//     );

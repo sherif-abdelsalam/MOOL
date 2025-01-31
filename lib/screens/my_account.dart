@@ -1,9 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 // import 'package:google_sign_in/google_sign_in.dart';
 import 'package:intl_phone_field/countries.dart';
 import 'package:mool/screens/address_book.dart';
+import 'package:mool/screens/change_password.dart';
 import 'package:mool/screens/my_list.dart';
 import 'package:mool/screens/your_account.dart';
 import 'package:mool/screens/your_orders.dart';
@@ -24,6 +26,25 @@ class _MyAccountState extends State<MyAccount> {
     Navigator.of(context).push(MaterialPageRoute(builder: (ctx) => screen));
   }
 
+  void getUser() async {
+    final users = FirebaseFirestore.instance.collection('users');
+    final id = FirebaseAuth.instance.currentUser!.uid;
+    var data;
+    DocumentSnapshot userDoc = await users.doc(id).get();
+    print("*************-----------------------------****");
+    print(id);
+    if (userDoc.exists) {
+      Map<String, dynamic> userData = userDoc.data() as Map<String, dynamic>;
+      print("User Data>>>>>>>>>: $userData");
+      _navigator(YourAccount(
+        userData: userData,
+      ));
+    } else {
+      print("User not found");
+    }
+    print("*****************");
+  }
+
   @override
   Widget build(BuildContext context) {
     return CustomScaffoldHeader(
@@ -36,7 +57,7 @@ class _MyAccountState extends State<MyAccount> {
             children: [
               GestureDetector(
                 onTap: () {
-                  _navigator(YourAccount());
+                  getUser();
                 },
                 child: RowContainer(
                     icon: SvgPicture.asset("images/user-square.svg"),
@@ -72,9 +93,14 @@ class _MyAccountState extends State<MyAccount> {
                     text: "Address Book"),
               ),
               const SizedBox(height: 8),
-              RowContainer(
-                  icon: SvgPicture.asset("images/lock.svg"),
-                  text: "Change Password"),
+              GestureDetector(
+                onTap: () {
+                  _navigator(ChangePassword());
+                },
+                child: RowContainer(
+                    icon: SvgPicture.asset("images/lock.svg"),
+                    text: "Change Password"),
+              ),
               const SizedBox(height: 8),
               RowContainer(
                   icon: SvgPicture.asset("images/language-square.svg"),

@@ -38,7 +38,7 @@ class _SignupState extends State<Signup> {
               left: 0,
               right: 0,
               bottom: 0,
-              child: SignupFrom(), // Make SignupFrom scrollable
+              child: SignupFrom(),
             ),
           ],
         ),

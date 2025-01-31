@@ -27,7 +27,6 @@ import 'package:mool/screens/tabs.dart';
 //     labelMedium: TextStyle(fontFamily: 'Roboto'),
 //     labelSmall: TextStyle(fontFamily: 'Roboto'),
 //   ),
-
 // );
 
 void main() async {

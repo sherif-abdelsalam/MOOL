@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:intl_phone_field/phone_number.dart';
 import 'package:mool/icons/arrow_back_icon.dart';
-import 'package:mool/screens/verification.dart';
 import 'package:mool/widgets/singing/email_input.dart';
 
 class ForgetPW extends StatefulWidget {
@@ -19,17 +19,19 @@ class _ForgetPWState extends State<ForgetPW> {
     _enteredEmail = email;
   }
 
+  PhoneNumber? phoneNumber;
+
   void _saveUser() {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
       FirebaseAuth.instance.sendPasswordResetEmail(email: _enteredEmail);
-      Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (ctx) => Verification(
-            email: _enteredEmail,
-          ),
-        ),
-      );
+      // Navigator.of(context).push(
+      //   MaterialPageRoute(
+      //     builder: (ctx) => Verification(
+      //       email: _enteredEmail,
+      //     ),
+      //   ),
+      // );
       // print(_enteredEmail);
     }
   }

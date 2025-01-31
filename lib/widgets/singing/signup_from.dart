@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
+import 'package:intl_phone_field/phone_number.dart';
 import 'package:mool/screens/signin.dart';
 import 'package:mool/utils/show_alert.dart';
 import 'package:mool/widgets/singing/email_input.dart';
@@ -25,19 +26,31 @@ class _SignupFromState extends State<SignupFrom> {
   var _enteredEmail = '';
   var _enteredPhoneNumber;
   var _enteredPassword = '';
-  CollectionReference users = FirebaseFirestore.instance.collection('users');
-  Future<void> addUser() {
-    print("<<<<<<<<<<<<<<>>>>>>>>>>>>>>");
-    return users
-        .add({
-          'first_name': _enteredFirstName,
-          'last_name': _enteredLastName,
-          'email': _enteredEmail,
-          'phone_number': _enteredPhoneNumber.toString(),
-        })
+
+  void addUser() async {
+    CollectionReference users = FirebaseFirestore.instance.collection('users');
+    final uid = FirebaseAuth.instance.currentUser!.uid;
+
+    Map<String, dynamic> phoneNumberMap = {
+      'countryISOCode': _enteredPhoneNumber.countryISOCode,
+      'countryCode': _enteredPhoneNumber.countryCode,
+      'number': _enteredPhoneNumber.number,
+    };
+
+    await users
+        .doc(uid)
+        .set(
+          {
+            'first_name': _enteredFirstName,
+            'last_name': _enteredLastName,
+            'email': _enteredEmail,
+            'phone_number': phoneNumberMap,
+          },
+        )
         .then((value) => print("===============>>>>User Added"))
         .catchError(
-            (error) => print("==========>>>>>Failed to add user: $error"));
+          (error) => print("==========>>>>>Failed to add user: $error"),
+        );
   }
 
   void _saveUser() async {
@@ -52,7 +65,7 @@ class _SignupFromState extends State<SignupFrom> {
         );
 
         FirebaseAuth.instance.currentUser!.sendEmailVerification();
-        await addUser();
+        addUser();
 
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (ctx) => Signin()),
@@ -64,6 +77,8 @@ class _SignupFromState extends State<SignupFrom> {
         } else if (e.code == 'email-already-in-use') {
           errorMessage =
               "The account already exists for that email! Try to Login";
+        } else if (e.code == "network-request-failed") {
+          errorMessage = "Connect to your network!";
         } else {
           errorMessage = "Inter valid credentials";
         }

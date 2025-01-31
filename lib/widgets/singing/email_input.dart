@@ -2,10 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:mool/widgets/singing/input_filed_deocration.dart';
 
 class EmailInput extends StatelessWidget {
-  const EmailInput(
-      {super.key, required this.labelText, required this.onSaveInput});
+  const EmailInput({
+    super.key,
+    required this.labelText,
+    required this.onSaveInput,
+    this.initialValue,
+  });
   final String labelText;
   final void Function(String input) onSaveInput;
+  final String? initialValue;
 
   String? _validator(String? value) {
     if (value == null || value.isEmpty || value.trim().isEmpty) {
@@ -28,7 +33,11 @@ class EmailInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InputFiledDecoration(
+      initialValue: initialValue,
       isPassword: false,
-        labelText: "Email", onSaveInput: onSaveInput, validator: _validator);
+      labelText: labelText,
+      onSaveInput: onSaveInput,
+      validator: _validator,
+    );
   }
 }

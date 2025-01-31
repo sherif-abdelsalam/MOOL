@@ -2,10 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:mool/widgets/singing/input_filed_deocration.dart';
 
 class TextInput extends StatelessWidget {
-  const   TextInput(
-      {super.key, required this.labelText, required this.onSaveInput});
+  const TextInput({
+    super.key,
+    required this.labelText,
+    required this.onSaveInput,
+    this.initialValue,
+  });
   final String labelText;
   final void Function(String input) onSaveInput;
+  final String? initialValue;
 
   String? _validator(String? value) {
     if (value == null ||
@@ -21,6 +26,10 @@ class TextInput extends StatelessWidget {
   Widget build(BuildContext context) {
     return InputFiledDecoration(
       isPassword: false,
-        labelText: labelText, onSaveInput: onSaveInput, validator: _validator);
+      labelText: labelText,
+      onSaveInput: onSaveInput,
+      validator: _validator,
+      initialValue: initialValue,
+    );
   }
 }

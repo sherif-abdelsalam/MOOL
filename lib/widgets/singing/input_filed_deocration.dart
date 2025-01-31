@@ -7,22 +7,23 @@ class InputFiledDecoration extends StatelessWidget {
     required this.onSaveInput,
     required this.validator,
     required this.isPassword,
+    this.initialValue,
   });
 
   final String labelText;
   final void Function(String input) onSaveInput;
   final String? Function(String? value) validator;
   final bool isPassword;
+  final String? initialValue;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       style: TextStyle(fontSize: 14),
-      keyboardType: labelText == "Email"
-          ? TextInputType.emailAddress
-          : labelText == "Phone Number"
-              ? TextInputType.number
-              : TextInputType.text,
+      initialValue: initialValue ?? "",
+      keyboardType: labelText == "Phone Number"
+          ? TextInputType.number
+          : TextInputType.text,
       decoration: InputDecoration(
         labelText: labelText,
         labelStyle: TextStyle(fontSize: 14, color: Colors.black54),
