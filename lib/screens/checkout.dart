@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mool/screens/Payment.dart';
+import 'package:mool/screens/payment.dart';
 import 'package:mool/screens/done_trans.dart';
 import 'package:mool/screens/transaction_review.dart';
 import 'package:mool/widgets/checkout/shipping.dart';

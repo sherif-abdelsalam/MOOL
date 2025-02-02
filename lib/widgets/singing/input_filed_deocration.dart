@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class InputFiledDecoration extends StatelessWidget {
+class InputFiledDecoration extends StatefulWidget {
   const InputFiledDecoration({
     super.key,
     required this.labelText,
@@ -17,15 +17,36 @@ class InputFiledDecoration extends StatelessWidget {
   final String? initialValue;
 
   @override
+  State<InputFiledDecoration> createState() => _InputFiledDecorationState();
+}
+
+class _InputFiledDecorationState extends State<InputFiledDecoration> {
+  bool passwordVisible = true;
+
+  @override
   Widget build(BuildContext context) {
     return TextFormField(
       style: TextStyle(fontSize: 14),
-      initialValue: initialValue ?? "",
-      keyboardType: labelText == "Phone Number"
+      initialValue: widget.initialValue ?? "",
+      keyboardType: widget.labelText == "Phone Number"
           ? TextInputType.number
           : TextInputType.text,
+      obscureText: widget.isPassword ? passwordVisible : false,
       decoration: InputDecoration(
-        labelText: labelText,
+        suffixIcon: widget.isPassword
+            ? IconButton(
+                icon: Icon(
+                    passwordVisible ? Icons.visibility : Icons.visibility_off),
+                onPressed: () {
+                  setState(
+                    () {
+                      passwordVisible = !passwordVisible;
+                    },
+                  );
+                },
+              )
+            : null,
+        labelText: widget.labelText,
         labelStyle: TextStyle(fontSize: 14, color: Colors.black54),
         filled: true,
         fillColor: Colors.white,
@@ -45,10 +66,9 @@ class InputFiledDecoration extends StatelessWidget {
           ),
         ),
       ),
-      obscureText: isPassword ? true : false,
-      validator: validator,
+      validator: widget.validator,
       onSaved: (newValue) {
-        onSaveInput(newValue!);
+        widget.onSaveInput(newValue!);
       },
     );
   }

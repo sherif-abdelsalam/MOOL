@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-// import 'package:google_sign_in/google_sign_in.dart';
 import 'package:intl_phone_field/countries.dart';
 import 'package:mool/screens/address_book.dart';
 import 'package:mool/screens/change_password.dart';
@@ -28,7 +27,9 @@ class _MyAccountState extends State<MyAccount> {
 
   void getUser() async {
     final users = FirebaseFirestore.instance.collection('users');
+
     final id = FirebaseAuth.instance.currentUser!.uid;
+    final userEmail = FirebaseAuth.instance.currentUser!.email;
     var data;
     DocumentSnapshot userDoc = await users.doc(id).get();
     print("*************-----------------------------****");
@@ -38,11 +39,15 @@ class _MyAccountState extends State<MyAccount> {
       print("User Data>>>>>>>>>: $userData");
       _navigator(YourAccount(
         userData: userData,
+        userEmail: userEmail ?? "",
       ));
     } else {
-      print("User not found");
+      ScaffoldMessenger.of(context).clearSnackBars();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+            content: Center(child: Text("We couldn't find your account!"))),
+      );
     }
-    print("*****************");
   }
 
   @override

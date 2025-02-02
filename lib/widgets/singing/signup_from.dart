@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
-import 'package:intl_phone_field/phone_number.dart';
 import 'package:mool/screens/signin.dart';
 import 'package:mool/utils/show_alert.dart';
 import 'package:mool/widgets/singing/email_input.dart';
@@ -43,7 +42,6 @@ class _SignupFromState extends State<SignupFrom> {
           {
             'first_name': _enteredFirstName,
             'last_name': _enteredLastName,
-            'email': _enteredEmail,
             'phone_number': phoneNumberMap,
           },
         )
@@ -66,10 +64,10 @@ class _SignupFromState extends State<SignupFrom> {
 
         FirebaseAuth.instance.currentUser!.sendEmailVerification();
         addUser();
-
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (ctx) => Signin()),
         );
+        
       } on FirebaseAuthException catch (e) {
         String errorMessage;
         if (e.code == 'weak-password') {

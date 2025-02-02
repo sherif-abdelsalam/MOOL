@@ -40,7 +40,6 @@ class _SigninFormState extends State<SigninForm> {
               MaterialPageRoute(builder: (ctx) => TabsScreen()));
         } else {
           FirebaseAuth.instance.currentUser!.sendEmailVerification();
-
           showAwesomeDialog(
             context,
             "Verify your email first, We have sent a verification link to your email,",

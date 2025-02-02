@@ -57,10 +57,7 @@ dependencies:
   video_player: ^2.9.2
   chewie: ^1.10.0
   card_swiper: ^3.0.1
-  # google_sign_in: ^6.2.2
-  # google_sign_in: ^6.2.2
-  # reels_viewer: ^2.0.0
-  # video_player: ^2.9.2
+  google_sign_in: ^6.2.2
 
 flutter_icons:
   android: true

@@ -33,6 +33,9 @@ class Password extends StatelessWidget {
   Widget build(BuildContext context) {
     return InputFiledDecoration(
       isPassword: true,
-        labelText: labelText, onSaveInput: onSaveInput, validator: _validator);
+      labelText: labelText,
+      onSaveInput: onSaveInput,
+      validator: _validator,
+    );
   }
 }

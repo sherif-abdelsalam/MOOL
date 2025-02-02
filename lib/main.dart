@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mool/screens/main_screen.dart';
 import 'package:mool/screens/signin.dart';
+import 'package:mool/screens/signup.dart';
 import 'package:mool/screens/tabs.dart';
 
 // final theme = ThemeData(
@@ -75,6 +76,7 @@ class _MyAppState extends State<MyApp> {
           : LogoScreen(),
       routes: {
         "login": (context) => Signin(),
+        "signup": (context) => Signup(),
         "tabs": (context) => TabsScreen(),
       },
     );

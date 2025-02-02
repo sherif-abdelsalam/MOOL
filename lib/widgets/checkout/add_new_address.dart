@@ -7,11 +7,12 @@ import 'package:mool/utils/button.dart';
 import 'package:mool/widgets/singing/input_filed_deocration.dart';
 
 class AddNewAddress extends ConsumerStatefulWidget {
-  const AddNewAddress(
-      {super.key,
-      this.onConfirmAddress,
-      required this.btnContent,
-      this.onAddAddress});
+  const AddNewAddress({
+    super.key,
+    this.onConfirmAddress,
+    required this.btnContent,
+    this.onAddAddress,
+  });
   final void Function()? onConfirmAddress;
   final void Function()? onAddAddress;
   final String btnContent;
@@ -43,7 +44,7 @@ class _AddNewAddressState extends ConsumerState<AddNewAddress> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return SizedBox(
-      height: size.height*.85,
+      height: size.height * .85,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
