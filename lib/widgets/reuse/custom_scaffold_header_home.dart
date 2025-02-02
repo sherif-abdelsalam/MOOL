@@ -43,7 +43,7 @@ class _CustomScaffoldHeaderHomeState extends State<CustomScaffoldHeaderHome> {
                           width: 100,
                         ),
                         Spacer(),
-                        SvgPicture.asset("images/search-normal.svg"),
+                        // SvgPicture.asset("images/search-normal.svg"),
                         SizedBox(
                           width: 12,
                         ),

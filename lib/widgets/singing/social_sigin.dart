@@ -1,4 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:mool/screens/tabs.dart';
 
 class SocialSign extends StatefulWidget {
   const SocialSign({super.key});
@@ -9,32 +12,32 @@ class SocialSign extends StatefulWidget {
 
 class _SocialSignState extends State<SocialSign> {
 
-  // Future signInWithGoogle() async {
-  //   print("****************************//////// *******");
+  Future signInWithGoogle() async {
+    print("****************************//////// *******");
 
-  //   // Trigger the authentication flow
-  //   final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-  //   // if (googleUser == null) {
-  //   //   return;
-  //   // }
-  //   print("****************777777777777************//////// *******");
+    // Trigger the authentication flow
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+    // if (googleUser == null) {
+    //   return;
+    // }
+    print("****************777777777777************//////// *******");
 
-  //   // Obtain the auth details from the request
-  //   final GoogleSignInAuthentication? googleAuth =
-  //       await googleUser?.authentication;
+    // Obtain the auth details from the request
+    final GoogleSignInAuthentication? googleAuth =
+        await googleUser?.authentication;
 
-  //   // Create a new credential
-  //   final credential = GoogleAuthProvider.credential(
-  //     accessToken: googleAuth?.accessToken,
-  //     idToken: googleAuth?.idToken,
-  //   );
-  //   print("***********************************");
+    // Create a new credential
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth?.accessToken,
+      idToken: googleAuth?.idToken,
+    );
+    print("***********************************");
 
-  //   // Once signed in, return the UserCredential
-  //   await FirebaseAuth.instance.signInWithCredential(credential);
-  //   Navigator.of(context)
-  //       .pushReplacement(MaterialPageRoute(builder: (ctx) => TabsScreen()));
-  // }
+    // Once signed in, return the UserCredential
+    await FirebaseAuth.instance.signInWithCredential(credential);
+    Navigator.of(context)
+        .pushReplacement(MaterialPageRoute(builder: (ctx) => TabsScreen()));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -75,9 +78,7 @@ class _SocialSignState extends State<SocialSign> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             GestureDetector(
-              onTap: () {
-                // signInWithGoogle();
-              },
+              onTap:signInWithGoogle,
               child: Container(
                 child: Image.asset(
                   "images/google.png",

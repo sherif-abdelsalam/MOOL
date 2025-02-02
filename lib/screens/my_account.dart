@@ -30,7 +30,7 @@ class _MyAccountState extends State<MyAccount> {
 
     final id = FirebaseAuth.instance.currentUser!.uid;
     final userEmail = FirebaseAuth.instance.currentUser!.email;
-    var data;
+    
     DocumentSnapshot userDoc = await users.doc(id).get();
     print("*************-----------------------------****");
     print(id);

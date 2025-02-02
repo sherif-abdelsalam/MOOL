@@ -84,27 +84,36 @@ class _YourAccountState extends State<YourAccount> {
 
   void deleteAccount() async {
     try {
+      // Get current user
       User? user = FirebaseAuth.instance.currentUser;
+
       if (user != null) {
         try {
-          await _reAuthenticateUser();
+          final res = await _reAuthenticateUser();
+          if (res) {
+            await FirebaseFirestore.instance
+                .collection('users')
+                .doc(user.uid)
+                .delete();
 
-          await FirebaseFirestore.instance
-              .collection('users')
-              .doc(user.uid)
-              .delete();
+            await user.delete();
 
-          await user.delete();
-
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(
-                  "Your account has been deleted successfully! We will miss you 😥"),
-            ),
-          );
-
-          Navigator.of(context)
-              .pushNamedAndRemoveUntil("signup", (route) => false);
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(
+                    "Your account has been deleted successfully! We will miss you 😥"),
+              ),
+            );
+            Navigator.of(context)
+                .pushNamedAndRemoveUntil("signup", (route) => false);
+          } else {
+            ScaffoldMessenger.of(context).clearSnackBars();
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Center(child: Text("Account deletion failed!")),
+              ),
+            );
+          }
         } catch (e) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
@@ -122,57 +131,58 @@ class _YourAccountState extends State<YourAccount> {
     }
   }
 
-  Future<void> _reAuthenticateUser() async {
+// Re-authentication function
+  Future<bool> _reAuthenticateUser() async {
     final passwordController = TextEditingController();
-    await showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) => AlertDialog(
-        title: Text('Confirm Deletion'),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text('Please enter your password to confirm account deletion'),
-            SizedBox(height: 10),
-            TextField(
-              controller: passwordController,
-              obscureText: true,
-              decoration: InputDecoration(
-                labelText: 'Password',
-                border: OutlineInputBorder(),
-              ),
+    return await showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (context) => AlertDialog(
+            title: Text('Confirm Deletion'),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text('Please enter your password to confirm account deletion'),
+                SizedBox(height: 10),
+                TextField(
+                  controller: passwordController,
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    labelText: 'Password',
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: Text('Cancel'),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                child: Text('Cancel'),
+              ),
+              ElevatedButton(
+                onPressed: () async {
+                  try {
+                    User? user = FirebaseAuth.instance.currentUser;
+                    if (user != null && user.email != null) {
+                      AuthCredential credential = EmailAuthProvider.credential(
+                        email: user.email!,
+                        password: passwordController.text,
+                      );
+                      await user.reauthenticateWithCredential(credential);
+                      Navigator.of(context).pop(true);
+                    }
+                  } catch (e) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Center(child: Text("Invalid password"))),
+                    );
+                  }
+                },
+                child: Text('Confirm'),
+              ),
+            ],
           ),
-          ElevatedButton(
-            onPressed: () async {
-              try {
-                User? user = FirebaseAuth.instance.currentUser;
-                if (user != null && user.email != null) {
-                  AuthCredential credential = EmailAuthProvider.credential(
-                    email: user.email!,
-                    password: passwordController.text,
-                  );
-
-                  await user.reauthenticateWithCredential(credential);
-                  Navigator.of(context).pop();
-                }
-              } catch (e) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text("Invalid password")),
-                );
-              }
-            },
-            child: Text('Confirm'),
-          ),
-        ],
-      ),
-    );
+        ) ??
+        false;
   }
 
   Future<bool> _showDeleteConfirmationDialog() async {
@@ -189,7 +199,9 @@ class _YourAccountState extends State<YourAccount> {
               ),
               ElevatedButton(
                 onPressed: () => Navigator.of(context).pop(true),
-                style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: Colors.red,
+                ),
                 child: Text('Delete'),
               ),
             ],
@@ -198,6 +210,7 @@ class _YourAccountState extends State<YourAccount> {
         false;
   }
 
+// Usage example with confirmation
   void initiateAccountDeletion() async {
     bool confirmDelete = await _showDeleteConfirmationDialog();
     if (confirmDelete) {

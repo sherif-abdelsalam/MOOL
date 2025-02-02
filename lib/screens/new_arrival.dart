@@ -22,21 +22,23 @@ class _NewArrivalScreenState extends ConsumerState<NewArrivalScreen> {
     );
   }
 
-  void _navigateToFiltersScreen() {
-    Navigator.of(context).push(
-      MaterialPageRoute(builder: (ctx) => Filter()),
-    );
-  }
+  // void _navigateToFiltersScreen() {
+  //   Navigator.of(context).push(
+  //     MaterialPageRoute(builder: (ctx) => Filter()),
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
-    // final newArrivals =
-    //     dummyProducts.where((prod) => prod.isNew == true).toList();
-
     final newArrivals = ref.watch(sortedNewArrivalsProvider);
 
     return CustomScaffoldHeader(
       title: "New Arrivals",
+      trailing: Icon(
+        Icons.search_rounded,
+        color: Colors.white,
+      ),
+      isSearch: true,
       bodyContent: Column(
         children: [
           Expanded(
@@ -89,27 +91,27 @@ class _NewArrivalScreenState extends ConsumerState<NewArrivalScreen> {
               ],
             ),
           ),
-          VerticalDivider(
-            color: Colors.grey,
-            thickness: 1,
-            width: 1,
-          ),
-          GestureDetector(
-            onTap: _navigateToFiltersScreen,
-            child: Row(
-              children: const [
-                Icon(Icons.sort, color: Colors.black),
-                SizedBox(width: 8),
-                Text(
-                  'FILTER',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 14,
-                  ),
-                ),
-              ],
-            ),
-          ),
+          // VerticalDivider(
+          //   color: Colors.grey,
+          //   thickness: 1,
+          //   width: 1,
+          // ),
+          // GestureDetector(
+          //   onTap: _navigateToFiltersScreen,
+          //   child: Row(
+          //     children: const [
+          //       Icon(Icons.sort, color: Colors.black),
+          //       SizedBox(width: 8),
+          //       Text(
+          //         'FILTER',
+          //         style: TextStyle(
+          //           color: Colors.black,
+          //           fontSize: 14,
+          //         ),
+          //       ),
+          //     ],
+          //   ),
+          // ),
         ],
       ),
     );
