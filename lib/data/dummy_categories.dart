@@ -4,7 +4,7 @@ import 'package:mool/models/collection_item.dart';
 
 final categories = [
   Category(
-      id: 'c1_sale_flash', name: 'SALE', imageUrl: 'images/flash_sale.png'),
+      id: 'c1_sale_flash', name: 'Flash Sale', imageUrl: 'images/flash_sale.png'),
   Category(
       id: 'c2_view_all', name: 'View All', imageUrl: 'images/view_all.png'),
   Category(id: 'c3_dresses', name: 'Dresses', imageUrl: 'images/dresses.png'),

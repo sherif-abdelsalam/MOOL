@@ -8,5 +8,5 @@ class OneNotification {
       {required this.id,
       required this.message,
       required this.timeAgo,
-      required this.imageUrl});
+      required this.imageUrl,});
 }

@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:mool/models/category.dart';
 
 class CategoryGridItem extends StatelessWidget {
-  const CategoryGridItem(
-      {super.key, required this.category, required this.onSelectCategory});
+  const CategoryGridItem({
+    super.key,
+    required this.category,
+    required this.onSelectCategory,
+  });
   final Category category;
   final void Function() onSelectCategory;
 
@@ -19,6 +22,7 @@ class CategoryGridItem extends StatelessWidget {
         onTap: onSelectCategory,
         splashColor: Theme.of(context).colorScheme.primary,
         child: Stack(
+          alignment: Alignment.center,
           children: [
             Image.asset(category.imageUrl),
             Positioned(
@@ -35,9 +39,10 @@ class CategoryGridItem extends StatelessWidget {
                   softWrap: true,
                   overflow: TextOverflow.ellipsis, // tex...
                   style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold),
+                    fontSize: 12,
+                    color: Colors.black,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
             ),

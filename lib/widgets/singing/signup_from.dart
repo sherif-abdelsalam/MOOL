@@ -34,7 +34,6 @@ class _SignupFromState extends State<SignupFrom> {
       'countryCode': _enteredPhoneNumber.countryCode,
       'number': _enteredPhoneNumber.number,
     };
-
     await users
         .doc(uid)
         .set(
@@ -66,7 +65,6 @@ class _SignupFromState extends State<SignupFrom> {
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (ctx) => Signin()),
         );
-        
       } on FirebaseAuthException catch (e) {
         String errorMessage;
         if (e.code == 'weak-password') {
@@ -101,6 +99,9 @@ class _SignupFromState extends State<SignupFrom> {
   void savePassword(String password) {
     _enteredPassword = password;
   }
+
+
+  
 
   @override
   Widget build(BuildContext context) {

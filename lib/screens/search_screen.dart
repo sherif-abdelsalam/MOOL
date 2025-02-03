@@ -1,6 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mool/data/dummy_products.dart';
 import 'package:mool/icons/arrow_back_icon.dart';
 import 'package:mool/models/product.dart';
 import 'package:mool/widgets/home/product_card.dart';
@@ -13,10 +13,18 @@ class SearchScreen extends ConsumerStatefulWidget {
 }
 
 class _SearchScreenState extends ConsumerState<SearchScreen> {
-  List<Product> newArrivals =
-      dummyProducts.where((prod) => prod.isNew == true).toList();
-
   List<Product> _foundNewArrivals = [];
+  List<Product> newArrivals = [];
+
+  void getProducts() async {
+    final result = await FirebaseFirestore.instance
+        .collection('products')
+        .where('isNew', isEqualTo: true)
+        .get();
+
+    newArrivals =
+        result.docs.map((doc) => Product.fromMap(doc.data(), doc.id)).toList();
+  }
 
   @override
   initState() {
@@ -79,7 +87,6 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                             onChanged: (value) => _runFilter(value),
                             decoration: const InputDecoration(
                               hintText: 'What are you looking for ?',
-                              
                               border: InputBorder.none,
                               contentPadding: EdgeInsets.zero,
                               hintStyle: TextStyle(

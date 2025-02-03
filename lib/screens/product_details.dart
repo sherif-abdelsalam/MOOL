@@ -34,6 +34,25 @@ class ProductDetails extends ConsumerStatefulWidget {
 }
 
 class _ProductDetailsState extends ConsumerState<ProductDetails> {
+  // void addRevs() async {
+  //   CollectionReference reviews =
+  //       FirebaseFirestore.instance.collection('reviews');
+  //   try {
+  //     for (final rev in dummyReviews) {
+  //       await reviews.doc(rev.id).set(rev.toMap());
+  //     }
+  //   } catch (e) {
+  //     ScaffoldMessenger.of(context)
+  //         .showSnackBar(SnackBar(content: Text('$e')));
+  //   }
+  // }
+
+  @override
+  void initState() {
+    // addRevs();
+    super.initState();
+  }
+
   String selectedSize = "L";
   void selectSize(String size) {
     setState(() {

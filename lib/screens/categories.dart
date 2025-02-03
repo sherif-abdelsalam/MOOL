@@ -13,10 +13,6 @@ class Categories extends StatelessWidget {
     return CustomScaffoldHeader(
       route: "tabs",
       title: "Categories",
-      trailing: GestureDetector(
-        onTap: () {},
-        child: SvgPicture.asset("images/search-normal.svg"),
-      ),
       bodyContent: GridView(
         padding: EdgeInsets.all(16),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
