@@ -117,13 +117,16 @@ class ProductCard extends ConsumerWidget {
             ),
             Positioned(
               bottom: 44,
-              child: Padding(
-                padding: const EdgeInsets.only(top: 8.0, left: 8.0),
-                child: Text(
-                  product.title,
-                  softWrap: true,
-                  overflow: TextOverflow.clip,
-                  style: TextStyle(fontSize: 13, fontWeight: FontWeight.w400),
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width * .4,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 8.0, left: 8.0),
+                  child: Text(
+                    product.title,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(fontSize: 13, fontWeight: FontWeight.w400),
+                  ),
                 ),
               ),
             ),
@@ -168,11 +171,10 @@ class ProductCard extends ConsumerWidget {
                         color: Color(0xFF292D32),
                         borderRadius:
                             BorderRadius.only(topLeft: Radius.circular(16))),
-
                     child: Icon(
                       Icons.add_rounded,
                       color: Colors.white,
-                    ), // Add your icon here
+                    ),
                   ),
                 ],
               ),

@@ -1,8 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl_phone_field/countries.dart';
 import 'package:mool/models/shipping_address.dart';
-import 'package:mool/providers/shipping_addresses.dart';
 import 'package:mool/utils/button.dart';
 import 'package:mool/widgets/singing/input_filed_deocration.dart';
 
@@ -30,7 +31,19 @@ class _AddNewAddressState extends ConsumerState<AddNewAddress> {
   void _saveForm() {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-      ref.watch(addressesProvider.notifier).addAddress(_address);
+
+      try {
+        CollectionReference addresses =
+            FirebaseFirestore.instance.collection('addresses');
+        final userId = FirebaseAuth.instance.currentUser!.uid;
+        _address.userId = userId;
+        addresses.add(_address.toMap());
+      } catch (e) {
+        print("+++++++++========+" + e.toString());
+      }
+
+      // ref.watch(addressesProvider.notifier).addAddress(_address);
+
       if (widget.onConfirmAddress != null) {
         widget.onConfirmAddress!();
       }

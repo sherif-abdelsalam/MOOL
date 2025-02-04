@@ -22,6 +22,7 @@ class CustomScaffoldHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
@@ -47,8 +48,10 @@ class CustomScaffoldHeader extends StatelessWidget {
                         isCartToBack: isCartToBack,
                       ),
                     ),
-                    Expanded(
+                    SizedBox(
+                    width: size.width*.66,
                       child: Text(
+                        maxLines: 1,
                         title,
                         style: TextStyle(
                           fontSize:

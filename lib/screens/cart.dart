@@ -47,9 +47,11 @@ class _CartScreenState extends ConsumerState<CartScreen> {
     final cartProducts = ref.watch(cartProductsProvider);
 
     CheckoutProducts check = CheckoutProducts(
-        checkoutProducts: cartProducts,
-        subTotal: _subtotal,
-        status: Status.pending);
+      checkoutProducts: cartProducts,
+      subTotal: _subtotal,
+      status: Status.pending,
+    );
+
     ref.watch(checkoutProductsProvider.notifier).addCheckoutProducts(check);
     Navigator.of(context).push(
         MaterialPageRoute(builder: (ctx) => CheckoutScreen(currentStep: 1)));

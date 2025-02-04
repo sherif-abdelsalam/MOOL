@@ -24,11 +24,14 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
 
     newArrivals =
         result.docs.map((doc) => Product.fromMap(doc.data(), doc.id)).toList();
+    setState(() {
+      _foundNewArrivals = newArrivals;
+    });
   }
 
   @override
   initState() {
-    _foundNewArrivals = newArrivals;
+    getProducts();
     super.initState();
   }
 

@@ -1,9 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mool/models/checkout_products.dart';
+import 'package:mool/models/order.dart';
+import 'package:mool/models/payment.dart';
+import 'package:mool/models/shipping_address.dart';
 import 'package:mool/providers/cart_product_provider.dart';
 import 'package:mool/providers/checkout_provider.dart';
-import 'package:mool/providers/payment_provider.dart';
-import 'package:mool/providers/shipping_addresses.dart';
+import 'package:mool/providers/transaction_review_provider.dart';
 import 'package:mool/screens/checkout.dart';
 import 'package:mool/utils/button.dart';
 import 'package:mool/widgets/checkout/build_payment_card.dart';
@@ -15,16 +20,41 @@ class TransactionReview extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final size = MediaQuery.of(context).size;
-    final payments = ref.watch(paymentProvider);
-    final shipAddress = ref.watch(addressesProvider);
-    final checkout = ref.watch(checkoutProductsProvider);
+
+    final transactionData = ref.watch(transactionReviewProvider);
+    final payments = transactionData['payments'] as List<PaymentModel>;
+    final shipAddress = transactionData['addresses'] as List<ShippingAddress>;
+
+    List<CheckoutProducts> checkout = ref.watch(checkoutProductsProvider);
+
+    List<OrderProduct> orderProducts = checkout.last.checkoutProducts.map((e) {
+      return OrderProduct(
+        prodId: e.product.id,
+        color: e.color,
+        size: e.size,
+      );
+    }).toList();
 
     void submitOrder() {
-      ref
-          .watch(checkoutProductsProvider.notifier)
-          .approveCheckout(checkout[0].id, DateTime.now());
-
+      ref.watch(checkoutProductsProvider.notifier).approveCheckout(
+            checkout[checkout.length - 1].id,
+            DateTime.now(),
+          );
+      final userId = FirebaseAuth.instance.currentUser!.uid;
+      final order = OrderItems(
+          orderProducts: orderProducts,
+          placedDate: DateTime.now(),
+          status: Status.done,
+          subTotal: checkout[checkout.length - 1].subTotal,
+          userId: userId);
       ref.watch(cartProductsProvider.notifier).restCart();
+      CollectionReference orders =
+          FirebaseFirestore.instance.collection('orders');
+      try {
+        orders.add(order.toMap());
+      } catch (e) {
+        print(">>>>>>>>>>>>>>>>>>>>$e");
+      }
 
       Navigator.of(context).push(
         MaterialPageRoute(
@@ -38,79 +68,78 @@ class TransactionReview extends ConsumerWidget {
 
     return Expanded(
       child: SingleChildScrollView(
-        child: SizedBox(
-          height: size.height,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Text(
-                      "Please confirm you order",
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Text(
+                    "Please confirm you order",
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                BuildPaymentCard(payment: payments[payments.length - 1]),
+                BuildShippingCard(
+                  sh: shipAddress[shipAddress.length - 1],
+                  isTransRev: true,
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 32,
+            ),
+            Column(
+              children: [
+                Container(
+                  width: double.infinity,
+                  color: Colors.white,
+                  padding: EdgeInsets.all(size.width * .04),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Order Summary",
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
+                      SizedBox(height: 16),
+                      _checkoutRow(
+                        "Subtotal",
+                        checkout[0].subTotal,
+                        Color(0xff616161),
+                      ),
+                      SizedBox(height: 8),
+                      _checkoutRow(
+                        "Shipping Fee",
+                        checkout[0].subTotal * 0.02,
+                        Color(0xff616161),
+                      ),
+                      SizedBox(height: 16),
+                      _checkoutRow(
+                        "Total",
+                        checkout[0].subTotal + checkout[0].subTotal * 0.02,
+                        Colors.black,
+                        isBold: true,
+                      ),
+                    ],
                   ),
-                  for (final p in payments) BuildPaymentCard(payment: p),
-                  for (final sh in shipAddress)
-                    BuildShippingCard(
-                      sh: sh,
-                      isTransRev: true,
-                    ),
-                ],
-              ),
-              Column(
-                children: [
-                  Container(
-                    width: double.infinity,
-                    color: Colors.white,
-                    padding: EdgeInsets.all(size.width * .04),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Order Summary",
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        SizedBox(height: 16),
-                        _checkoutRow(
-                          "Subtotal",
-                          checkout[0].subTotal,
-                          Color(0xff616161),
-                        ),
-                        SizedBox(height: 8),
-                        _checkoutRow(
-                          "Shipping Fee",
-                          checkout[0].subTotal * 0.02,
-                          Color(0xff616161),
-                        ),
-                        SizedBox(height: 16),
-                        _checkoutRow(
-                          "Total",
-                          checkout[0].subTotal + checkout[0].subTotal * 0.02,
-                          Colors.black,
-                          isBold: true,
-                        ),
-                      ],
-                    ),
-                  ),
-                  Button(
-                    btnText: "Submit Order",
-                    onTapBtn: submitOrder,
-                  ),
-                ],
-              ),
-            ],
-          ),
+                ),
+                Button(
+                  btnText: "Submit Order",
+                  onTapBtn: submitOrder,
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );

@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl_phone_field/countries.dart';
+import 'package:mool/models/product.dart';
 import 'package:mool/screens/address_book.dart';
 import 'package:mool/screens/change_password.dart';
 import 'package:mool/screens/my_list.dart';
@@ -30,13 +31,10 @@ class _MyAccountState extends State<MyAccount> {
 
     final id = FirebaseAuth.instance.currentUser!.uid;
     final userEmail = FirebaseAuth.instance.currentUser!.email;
-    
+
     DocumentSnapshot userDoc = await users.doc(id).get();
-    print("*************-----------------------------****");
-    print(id);
     if (userDoc.exists) {
       Map<String, dynamic> userData = userDoc.data() as Map<String, dynamic>;
-      print("User Data>>>>>>>>>: $userData");
       _navigator(YourAccount(
         userData: userData,
         userEmail: userEmail ?? "",
@@ -48,6 +46,19 @@ class _MyAccountState extends State<MyAccount> {
             content: Center(child: Text("We couldn't find your account!"))),
       );
     }
+  }
+
+  List<Product> products = [];
+
+  Future<void> getProducts() async {
+    final result =
+        await FirebaseFirestore.instance.collection('products').get();
+
+    setState(() {
+      products = result.docs
+          .map((doc) => Product.fromMap(doc.data(), doc.id))
+          .toList();
+    });
   }
 
   @override
@@ -71,8 +82,11 @@ class _MyAccountState extends State<MyAccount> {
               const SizedBox(height: 8),
 
               GestureDetector(
-                onTap: () {
-                  _navigator(YourOrdersScreen());
+                onTap: () async{
+                  await getProducts();
+                  _navigator(YourOrdersScreen(
+                    products: products,
+                  ));
                 },
                 child: RowContainer(
                     icon: SvgPicture.asset("images/box.svg"),

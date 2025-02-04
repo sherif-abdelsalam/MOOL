@@ -1,11 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mool/models/payment.dart';
-import 'package:mool/providers/payment_provider.dart';
 import 'package:mool/screens/checkout.dart';
 import 'package:mool/utils/button.dart';
-import 'package:mool/utils/show_snack_bar.dart';
 
 class PaymentMethods extends ConsumerStatefulWidget {
   const PaymentMethods({super.key});
@@ -40,41 +40,45 @@ class _PaymentMethodsState extends ConsumerState<PaymentMethods> {
     void onSave() {
       if (_formKey.currentState!.validate()) {
         _formKey.currentState!.save();
-        final payments = ref.watch(paymentProvider);
+        final userId = FirebaseAuth.instance.currentUser!.uid;
 
         PaymentModel payment = PaymentModel(
-          id: (payments.length + 1).toString(),
+          userId: userId,
           cardNumber: cardNumberController.text,
           fullName: nameController.text,
           expiryDate: expirationDateController.text,
           cvv: securityCodeController.text,
           methodType: "credit",
         );
-        var checkIsExisted = payments
-            .where((item) => item.cardNumber.trim() != cardNumberController.text.trim())
-            .toList();
 
-        if (checkIsExisted.isNotEmpty) {
-          ScaffoldMessenger.of(context).clearSnackBars();
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              backgroundColor: const Color.fromARGB(255, 61, 61, 61),
-              duration: Duration(seconds: 2),
-              content: Center(
-                child: Text(
-                  "This card is Already Existed",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.normal,
-                  ),
-                ),
-              ),
-            ),
-          );
-        } else {
-          ref.watch(paymentProvider.notifier).addPaymentMethod(payment);
+        try {
+          CollectionReference payments =
+              FirebaseFirestore.instance.collection('payments');
+          payments.add(payment.toMap());
+        } catch (e) {
+          print(e.toString());
         }
+
+        // if (checkIsExisted.isNotEmpty) {
+        //   ScaffoldMessenger.of(context).clearSnackBars();
+        //   ScaffoldMessenger.of(context).showSnackBar(
+        //     SnackBar(
+        //       backgroundColor: const Color.fromARGB(255, 61, 61, 61),
+        //       duration: Duration(seconds: 2),
+        //       content: Center(
+        //         child: Text(
+        //           "This card is Already Existed",
+        //           textAlign: TextAlign.center,
+        //           style: TextStyle(
+        //             fontSize: 14,
+        //             fontWeight: FontWeight.normal,
+        //           ),
+        //         ),
+        //       ),
+        //     ),
+        //   );
+        // }
+
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (ctx) => CheckoutScreen(currentStep: 3),

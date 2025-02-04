@@ -1,55 +1,71 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:mool/models/checkout_products.dart';
+import 'package:mool/models/order.dart';
 import 'package:mool/models/payment.dart';
+import 'package:mool/models/product.dart';
 import 'package:mool/models/shipping_address.dart';
-import 'package:mool/providers/checkout_provider.dart';
-import 'package:mool/providers/payment_provider.dart';
-import 'package:mool/providers/shipping_addresses.dart';
+import 'package:mool/providers/order_provider.dart';
+import 'package:mool/providers/transaction_review_provider.dart';
 import 'package:mool/screens/order_details.dart';
 import 'package:mool/widgets/reuse/custom_scaffold_header.dart';
 import 'package:mool/widgets/status_bar.dart';
 
 class YourOrdersScreen extends ConsumerWidget {
-  const YourOrdersScreen({super.key});
-
+  const YourOrdersScreen({super.key, required this.products});
+  final List<Product> products;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final orders = ref.watch(checkoutProductsProvider);
-    final addresses = ref.watch(addressesProvider);
-    final payments = ref.watch(paymentProvider);
-    Widget mainContent = Center(
-      child: Text("You did not place any order yet!"),
-    );
+    final orderStream = ref.watch(orderProvider);
 
-    if (orders.isNotEmpty) {
-      mainContent = Column(
-        children: [
-          for (final order in orders)
-            _buildOrderCard(order, addresses[0], payments[0], context),
-        ],
-      );
-    }
+    // final orders = ref.watch(checkoutProductsProvider);
+
+    final transData = ref.watch(transactionReviewProvider);
+    final addresses = transData['addresses'] as List<ShippingAddress>;
+    final payments = transData['payments'] as List<PaymentModel>;
 
     return CustomScaffoldHeader(
       title: "Your Orders",
-      bodyContent: mainContent,
+      bodyContent: orderStream.when(
+        data: (data) {
+          if (data.isEmpty) {
+            return Center(child: Text("You did not place any order yet!"));
+          }
+          return Column(
+            children: [
+              for (final order in data)
+                _buildOrderCard(
+                    order, addresses[0], payments[0], products, context),
+            ],
+          );
+        },
+        loading: () => Center(child: CircularProgressIndicator()),
+        error: (error, stack) => Center(child: Text('Error: $error')),
+      ),
     );
   }
 }
 
-Widget _buildOrderCard(CheckoutProducts order, ShippingAddress address,
-    PaymentModel payment, BuildContext context) {
+Widget _buildOrderCard(OrderItems order, ShippingAddress address,
+    PaymentModel payment, List<Product> products, BuildContext context) {
   final size = MediaQuery.of(context).size;
+  List<Product> orderProds = products.where((product) {
+    return order.orderProducts
+        .any((orderProduct) => orderProduct.prodId == product.id);
+  }).toList();
+
   return InkWell(
     onTap: () {
-      Navigator.of(context).push(MaterialPageRoute(
+      Navigator.of(context).push(
+        MaterialPageRoute(
           builder: (ctx) => OrderDetailsScreen(
-                order: order,
-                address: address,
-                payment: payment,
-              )));
+            order: order,
+            orderProds: orderProds,
+            address: address,
+            payment: payment,
+          ),
+        ),
+      );
     },
     child: Column(
       children: [
@@ -71,11 +87,16 @@ Widget _buildOrderCard(CheckoutProducts order, ShippingAddress address,
                       style: TextStyle(fontSize: 18),
                     ),
                     SizedBox(width: 8),
-                    Text(
-                      order.id.substring(order.id.length - 8, order.id.length),
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 15,
+                    SizedBox(
+                      width: size.width * .33,
+                      child: Text(
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        order.id,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15,
+                        ),
                       ),
                     ),
                     Spacer(),
@@ -95,7 +116,7 @@ Widget _buildOrderCard(CheckoutProducts order, ShippingAddress address,
                       fontWeight: FontWeight.w300,
                       color: Color(0xff181818),
                     ),
-                    'Placed On ${DateFormat('MMM dd, yyyy').format(order.placedDate!)}'),
+                    'Placed On ${DateFormat('MMM dd, yyyy').format(order.placedDate)}'),
                 SizedBox(height: 16),
                 Container(
                   color: const Color(0xffE9E8E8),
@@ -103,7 +124,7 @@ Widget _buildOrderCard(CheckoutProducts order, ShippingAddress address,
                   height: 1,
                 ),
                 SizedBox(height: 16),
-                for (final p in order.checkoutProducts)
+                for (final p in orderProds)
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -111,15 +132,15 @@ Widget _buildOrderCard(CheckoutProducts order, ShippingAddress address,
                         width: size.width * .6,
                         child: Text(
                           style: TextStyle(fontWeight: FontWeight.bold),
-                          '${p.product.title}  ${p.product.description}',
+                          '${p.title}  ${p.description}',
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
                       SizedBox(height: 8),
                     ],
-                  ),
-                  SizedBox(height: 16),
+                ),
+                SizedBox(height: 16),
                 OrderStatusBar(status: order.status),
               ],
             ),

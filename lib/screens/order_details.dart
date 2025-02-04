@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:mool/models/cart_product.dart';
-import 'package:mool/models/checkout_products.dart';
+import 'package:mool/models/order.dart';
 import 'package:mool/models/payment.dart';
+import 'package:mool/models/product.dart';
 import 'package:mool/models/shipping_address.dart';
 import 'package:mool/widgets/reuse/custom_scaffold_header.dart';
 import 'package:mool/widgets/status_bar.dart';
@@ -13,27 +13,28 @@ class OrderDetailsScreen extends StatelessWidget {
     required this.order,
     required this.address,
     required this.payment,
+    required this.orderProds,
   });
 
-  final CheckoutProducts order;
+  final OrderItems order;
   final ShippingAddress address;
   final PaymentModel payment;
+  final List<Product> orderProds;
 
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
     double itemsPrice = 0;
     double discount = 0;
-    for (final o in order.checkoutProducts) {
-      itemsPrice += o.product.price;
-      if (o.product.discount != null) {
-        discount += o.product.discount!;
+    for (final o in orderProds) {
+      itemsPrice += o.price;
+      if (o.discount != null) {
+        discount += o.discount!;
       }
     }
 
     return CustomScaffoldHeader(
-      title:
-          "Order ${order.id.substring(order.id.length - 8, order.id.length)}",
+      title: "Order ${order.id}",
       bodyContent: SingleChildScrollView(
         child: SizedBox(
           width: double.infinity,
@@ -44,7 +45,7 @@ class OrderDetailsScreen extends StatelessWidget {
                 SizedBox(height: 16),
                 _orderDetails(),
                 SizedBox(height: 16),
-                _shippingDetails(order.checkoutProducts, screenSize),
+                _shippingDetails(orderProds, screenSize),
                 SizedBox(height: 16),
                 _payment(),
                 SizedBox(height: 16),
@@ -90,9 +91,9 @@ class OrderDetailsScreen extends StatelessWidget {
                   ),
                 ),
                 TextSpan(
-                  text:
-                      order.id.substring(order.id.length - 8, order.id.length),
+                  text: order.id.toString(),
                   style: TextStyle(
+                    overflow: TextOverflow.ellipsis,
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
@@ -108,7 +109,7 @@ class OrderDetailsScreen extends StatelessWidget {
                 fontWeight: FontWeight.w300,
                 color: Color(0xff181818),
               ),
-              'Placed On ${DateFormat('MMM dd, yyyy').format(order.placedDate!)}'),
+              'Placed On ${DateFormat('MMM dd, yyyy').format(order.placedDate)}'),
           SizedBox(height: 8),
           Text.rich(
             TextSpan(
@@ -137,7 +138,7 @@ class OrderDetailsScreen extends StatelessWidget {
     );
   }
 
-  Widget _shippingDetails(List<CartProduct> products, Size size) {
+  Widget _shippingDetails(List<Product> products, Size size) {
     return Container(
       width: double.infinity,
       padding: EdgeInsets.all(16),
@@ -168,7 +169,7 @@ class OrderDetailsScreen extends StatelessWidget {
           ),
           SizedBox(height: 8),
           Text(
-            '${DateFormat('EEEE, d MMMM yyyy').format(order.placedDate!.add(Duration(days: 3)))}  before 9pm',
+            '${DateFormat('EEEE, d MMMM yyyy').format(order.placedDate.add(Duration(days: 3)))}  before 9pm',
             style: TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.bold,
@@ -182,7 +183,7 @@ class OrderDetailsScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Image.asset(
-                    prod.product.imageUrl,
+                    prod.imageUrl,
                     width: size.width * .25,
                   ),
                   SizedBox(width: 4),
@@ -191,7 +192,7 @@ class OrderDetailsScreen extends StatelessWidget {
                     child: Column(
                       children: [
                         Text(
-                          prod.product.description,
+                          prod.description,
                           maxLines: 3,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
@@ -211,7 +212,7 @@ class OrderDetailsScreen extends StatelessWidget {
                                 ),
                               ),
                               TextSpan(
-                                text: prod.product.brand,
+                                text: prod.brand,
                                 style: TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.bold,
@@ -226,7 +227,7 @@ class OrderDetailsScreen extends StatelessWidget {
                   ),
                   Spacer(),
                   Text(
-                    '${prod.product.price.toInt().toString()} SAR',
+                    '${prod.price.toInt().toString()} SAR',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                     ),
@@ -317,6 +318,10 @@ class OrderDetailsScreen extends StatelessWidget {
           _checkoutRow(
               "Discount", -(discount / 100 * itemsPrice), Color(0xff616161)),
           SizedBox(height: 8),
+          _checkoutRow("SubTotal", itemsPrice - (discount / 100 * itemsPrice),
+              Color(0xff616161)),
+          SizedBox(height: 8),
+          SizedBox(height: 8),
           _checkoutRow("VAT Tax", 0.02 * itemsPrice, Color(0xff616161)),
           SizedBox(height: 16),
           Container(
@@ -326,10 +331,11 @@ class OrderDetailsScreen extends StatelessWidget {
           ),
           SizedBox(height: 8),
           _checkoutRow(
-              "Total",
-              itemsPrice - (discount / 100 * itemsPrice) + 0.02 * itemsPrice,
-              Colors.black,
-              isBold: true),
+            "Total",
+            itemsPrice - (discount / 100 * itemsPrice) + 0.02 * itemsPrice,
+            Colors.black,
+            isBold: true,
+          ),
         ],
       ),
     );
