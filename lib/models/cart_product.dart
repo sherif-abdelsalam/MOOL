@@ -8,6 +8,7 @@ class CartProduct {
     required this.color,
     required this.size,
   });
+
   final String id;
   final Product product;
   final Color color;

@@ -12,6 +12,7 @@ class CheckoutProducts {
     required this.status,
     this.placedDate,
   }) : id = uuid.v4();
+
   final String id;
   final List<CartProduct> checkoutProducts;
   final double subTotal;
