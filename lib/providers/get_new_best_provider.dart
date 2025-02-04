@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mool/models/product.dart';
 
 final productProvider = FutureProvider<Map<String, List<Product>>>((ref) async {
+  
   Future<List<Product>> fetchProducts(String field, bool value) async {
     final QuerySnapshot result = await FirebaseFirestore.instance
         .collection('products')
